@@ -1,0 +1,29 @@
+.profile-search-form {
+  padding: 16px 20px;
+  background-color: var(--dark-color);
+  border: 1px solid var(--light-color);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-gap: 40px;
+}
+
+.tt-form-input {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  height: 44px;
+  width: 100%;
+}
+
+.tt-input__wrapper {
+  position: relative;
+}
+
+.search-input-icon {
+  width: 18px;
+  height: 18px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0;
+  color: var(--light-color);
+}

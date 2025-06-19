@@ -1,0 +1,30 @@
+@if (post(); as post) {
+  <app-avatar-circle
+    class="size32"
+    [avatarUrl]="post.author.avatarUrl"
+  ></app-avatar-circle>
+
+  <main class="post-body small-text">
+    <div class="post-header">
+      <strong class="post-author bold">{{ post.author.firstName }} {{ post.author.lastName }}</strong>
+      <span class="post-created-at ml8">{{ post.createdAt | date : 'HH:mm dd.MM.YYYY' }}</span>
+    </div>
+    <p>{{ post.content }}</p>
+
+    <div class="post-counters">
+      <span class="post-counter">
+        <svg icon="comments" class="svg16"></svg>
+        <span>{{ post.comments.length }}</span>
+      </span>
+      <span class="post-counter">
+        <svg icon="likes" class="svg16"></svg>
+        <span>{{ post.likes }}</span>
+      </span>
+    </div>
+
+    <app-post-input
+      [postId]="post.id"
+      [isCommentInput]="true"
+    ></app-post-input>
+  </main>
+}

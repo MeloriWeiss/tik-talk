@@ -1,0 +1,7 @@
+<textarea
+  [(ngModel)]="postText"
+  [placeholder]="placeholder()"
+  (input)="onTextareaInput($event)"
+  [rows]="rows()"
+  class="tt-textarea"
+></textarea>

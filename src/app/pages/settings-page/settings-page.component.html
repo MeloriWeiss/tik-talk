@@ -1,0 +1,59 @@
+<app-profile-header></app-profile-header>
+
+<form class="profile-form__wrapper" [formGroup]="form">
+  <div class="profile-form">
+    <div class="two-columns">
+      <label class="tt-form-label">
+        <span>Имя</span>
+        <input formControlName="firstName" type="text" class="tt-form-input">
+      </label>
+
+      <label class="tt-form-label">
+        <span>Фамилия</span>
+        <input formControlName="lastName" type="text" class="tt-form-input">
+      </label>
+    </div>
+
+    <label class="tt-form-label">
+      <span>Telegram username</span>
+      <input formControlName="username" type="text" class="tt-form-input">
+    </label>
+
+    <label class="tt-form-label">
+      <span>О себе</span>
+      <app-main-textarea
+        [postText]="form.value.description || ''"
+        (inputText)="onTextareaInput($event)"
+        rows="4"
+        class="bordered"
+      ></app-main-textarea>
+    </label>
+
+    <label class="tt-form-label">
+      <span>Аватар</span>
+      <app-avatar-upload></app-avatar-upload>
+    </label>
+
+    <label class="tt-form-label">
+      <span>Навыки (стэк)</span>
+      <input formControlName="stack" type="text" class="tt-form-input">
+    </label>
+  </div>
+
+  <div class="profile-actions mt20">
+    <div class="profile-actions__controls">
+      <button class="btn btn-transparent icon-btn">
+        <svg icon="trash" class="profile-actions__icon"></svg>
+      </button>
+      <button class="btn btn-transparent icon-btn">
+        <svg icon="logout" class="profile-actions__icon"></svg>
+      </button>
+    </div>
+    <div class="profile-actions__controls">
+      <a [routerLink]="['../profile', 'me']">
+        <button class="btn btn-transparent">Отмена</button>
+      </a>
+      <button class="btn" (click)="onSave()">Сохранить</button>
+    </div>
+  </div>
+</form>

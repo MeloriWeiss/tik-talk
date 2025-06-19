@@ -1,1 +1,238 @@
-/* You can add global styles to this file, and also import other style files */
+@import "fonts";
+@import "margins";
+
+:root {
+  --dark-color: #000000;
+  --light-color: #FFFFFF;
+  --primary-color: #AE7AFF;
+  --gray-color: #575757;
+  --dark-hover-color: #161616;
+  --light-transparent-color: #FFFFFFBF;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'JetBrains Mono', sans-serif;
+  background-color: var(--dark-color);
+  color: var(--light-color);
+  background-image: url("/assets/imgs/background.jpg");
+  background-attachment: fixed;
+  background-position: right;
+  background-size: cover;
+  height: 100dvh;
+  font-size: 14px;
+}
+
+.skill-tag {
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--light-color);
+  display: inline;
+  font-size: 12px;
+  font-weight: 700;
+  height: 24px;
+}
+
+.btn {
+  width: 100%;
+  border: 1px solid var(--dark-color);
+  border-radius: 2px;
+  background-color: var(--primary-color);
+  color: var(--dark-color);
+  padding: 10px 20px;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 24px;
+  box-sizing: border-box;
+  text-decoration: none;
+  cursor: pointer;
+
+  &.btn-shadow {
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      z-index: -1;
+      bottom: -4px;
+      right: -4px;
+      background-color: var(--gray-color);
+      width: 100%;
+      height: 100%;
+      border-radius: 2px;
+    }
+  }
+
+  &.btn-transparent {
+    color: var(--light-color);
+    background: none;
+    border: 1px solid var(--light-color);
+  }
+
+  &.btn-icon {
+    width: 44px;
+    height: 44px;
+    padding: 14px;
+    font-size: 0;
+  }
+}
+
+.svg16 {
+  width: 16px;
+  height: 16px;
+}
+
+.svg18 {
+  width: 18px;
+  height: 18px;
+}
+
+.h1 {
+  font-size: 48px;
+  line-height: 56px;
+  font-weight: 800;
+}
+
+h4 {
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 32px;
+}
+
+.h6 {
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 800;
+}
+
+.small-text {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+}
+
+.regular {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.medium {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.bold {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+}
+
+.tt-control-label {
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 16px;
+  display: block;
+}
+
+.tt-input {
+  width: 100%;
+  display: block;
+  border: 1px solid var(--light-color);
+  border-radius: 4px;
+  padding: 12px 20px;
+  margin-top: 8px;
+  background-color: var(--dark-color);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  font-family: 'JetBrains Mono', sans-serif;
+  color: var(--light-color);
+}
+
+.tt-form-label {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px;
+  color: var(--light-transparent-color);
+}
+
+.tt-form-input {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  border: none;
+  border-bottom: 1px solid var(--light-color);
+  background: none;
+  height: 33px;
+  font-family: 'JetBrains Mono', sans-serif;
+  color: var(--light-color);
+  outline: none;
+  transition: .5s all;
+
+  &::placeholder {
+    font-size: 14px;
+    color: var(--light-transparent-color);
+  }
+
+  &:focus-visible {
+    border-bottom: 1px solid var(--primary-color);
+  }
+}
+
+.tt-textarea {
+  resize: none;
+  background-color: var(--dark-color);
+  border: none;
+  border-bottom: 1px solid transparent;
+  color: var(--light-color);
+  width: 100%;
+  padding: 11px 4px 11px;
+  font-size: 14px;
+  outline: none;
+  transition: .5s all;
+
+  &:focus-visible {
+    border-bottom: 1px solid var(--primary-color);
+  }
+
+  &::placeholder {
+    color: var(--light-transparent-color);
+  }
+
+  &.bordered {
+    border-bottom: 1px solid var(--light-color);
+  }
+}
+
+.scrollbar {
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: var(--light-color);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color);
+    border-radius: 4px;
+  }
+}
+
+.no-select {
+  user-select: none;
+}

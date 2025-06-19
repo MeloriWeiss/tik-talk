@@ -1,0 +1,15 @@
+:host {
+  .tt-textarea {
+    overflow: hidden;
+  }
+
+  &.bordered {
+    .tt-textarea {
+      border-bottom: 1px solid var(--light-color);
+
+      &:focus-visible {
+        border-bottom: 1px solid var(--primary-color);
+      }
+    }
+  }
+}

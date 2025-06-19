@@ -1,0 +1,79 @@
+.profile-page__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 24px;
+}
+
+.to-settings-btn {
+  width: 180px;
+  text-decoration: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.to-settings-icon {
+  width: 16px;
+  height: 16px;
+  color: var(--dark-color);
+}
+
+.profile-page__body {
+  display: grid;
+  grid-gap: 64px;
+  grid-template-columns: 1fr 340px;
+  padding-top: 24px;
+}
+
+.subscribers-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0;
+  min-height: 36px;
+}
+
+.subscriber-avatar-img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+
+.to-subscribers-search {
+  padding: 8px;
+}
+
+.to-subscribers-search-icon {
+  border-radius: 50%;
+  background-color: var(--light-color);
+  width: 14px;
+  height: 14px;
+  position: relative;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 8px;
+    background-color: var(--dark-color);
+    top: 50%;
+    left: 50%;
+  }
+
+  &::before {
+    transform: translateY(-50%) translateX(-50%);
+  }
+
+  &::after {
+    transform: translateY(-50%) translateX(-50%) rotate(90deg);
+  }
+}
+
+.stack-wrapper {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}

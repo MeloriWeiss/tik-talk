@@ -1,0 +1,38 @@
+:host {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  height: 100dvh;
+  align-items: center;
+  margin: 0 10%;
+  justify-items: center;
+}
+
+.login-form {
+  width: 440px;
+}
+
+.input-block {
+  position: relative;
+}
+
+.input-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 15px;
+  background: none;
+  border: none;
+  color: var(--light-transparent-color);
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  cursor: pointer;
+
+  &.disabled {
+    cursor: auto;
+  }
+
+  &.active {
+    color: var(--primary-color);
+  }
+}

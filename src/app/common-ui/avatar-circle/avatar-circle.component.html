@@ -1,0 +1,7 @@
+@if (avatarUrl(); as avatarUrl) {
+  <img
+    [src]="(avatarUrl | imgUrl) || '/assets/svg/avatar-placeholder.svg'"
+    alt="avatar"
+    class="avatar-img"
+  >
+}

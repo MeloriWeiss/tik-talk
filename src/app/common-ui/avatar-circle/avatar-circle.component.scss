@@ -1,0 +1,10 @@
+.avatar-img {
+  width: 112px;
+  height: 112px;
+  border-radius: 50%;
+}
+
+:host.size32 .avatar-img {
+  width: 32px;
+  height: 32px;
+}

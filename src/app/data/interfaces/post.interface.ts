@@ -1,0 +1,44 @@
+import {Profile} from "./profile.interface";
+
+export interface PostCreateDto {
+  title: string;
+  content: string;
+  authorId: number;
+}
+
+export interface Post {
+  id: number;
+  title: string;
+  communityId: number;
+  content: string;
+  author: Profile;
+  images: string[];
+  createdAt: string;
+  updatedAt: string;
+  likes: number;
+  comments: Comment[];
+}
+
+export interface Comment {
+  id: number;
+  text: string;
+  author: Author;
+  postId: number;
+  commentId: number;
+  createdAt: number;
+  updatedAt: number;
+}
+
+export interface Author {
+  id: number;
+  username: string;
+  avatarUrl: string;
+  subscribersAmount: number;
+}
+
+export interface CommentCreateDto {
+  text: string;
+  authorId: number;
+  postId: number;
+  commentId?: number;
+}
