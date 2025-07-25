@@ -1,0 +1,7 @@
+:host {
+  background-color: var(--dark-color);
+  border: var(--light-border);
+  height: 100%;
+  display: grid;
+  grid-template-columns: 380px 1fr;
+}

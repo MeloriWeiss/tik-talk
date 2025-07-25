@@ -1,0 +1,22 @@
+<div class="chats-filters-input__wrapper">
+  <div class="tt-input__wrapper">
+    <input
+      [formControl]="filterChatsControl"
+      placeholder="Искать..."
+      type="text"
+      class="tt-form-input"
+    >
+    <svg icon="search" class="search-input-icon svg18"></svg>
+  </div>
+</div>
+
+<div class="chats-wrapper scrollbar scroll-hidden" scrollBlock [diff]="1">
+  @for (chat of chats$ | async; track chat.id) {
+    <button
+      chats
+      [chat]="chat"
+      [routerLink]="[chat.id]"
+      routerLinkActive="active"
+    ></button>
+  }
+</div>

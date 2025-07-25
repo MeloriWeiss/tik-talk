@@ -1,20 +1,19 @@
 @if (post(); as post) {
   <app-avatar-circle
-    class="size32"
     [avatarUrl]="post.author.avatarUrl"
   ></app-avatar-circle>
 
   <main class="post-body small-text">
     <div class="post-header">
       <strong class="post-author bold">{{ post.author.firstName }} {{ post.author.lastName }}</strong>
-      <span class="post-created-at ml8">{{ post.createdAt | date : 'HH:mm dd.MM.YYYY' }}</span>
+      <span class="post-created-at ml8">{{ post.createdAt | dateDiff }}</span>
     </div>
     <p>{{ post.content }}</p>
 
     <div class="post-counters">
       <span class="post-counter">
-        <svg icon="comments" class="svg16"></svg>
-        <span>{{ post.comments.length }}</span>
+        <svg icon="messages" class="svg16"></svg>
+        <span>{{ comments().length }}</span>
       </span>
       <span class="post-counter">
         <svg icon="likes" class="svg16"></svg>
@@ -22,9 +21,18 @@
       </span>
     </div>
 
-    <app-post-input
-      [postId]="post.id"
-      [isCommentInput]="true"
-    ></app-post-input>
+    <div class="post__comments-wrapper scrollbar">
+      @for (comment of comments(); track comment.id) {
+        <app-comment
+          [comment]="comment"
+        ></app-comment>
+      }
+    </div>
+
+    <app-message-input
+      placeholder="Напишите комментарий"
+      (created)="onCreatedComment($event)"
+      class="border-dashed"
+    ></app-message-input>
   </main>
 }

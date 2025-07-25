@@ -5,13 +5,20 @@
   padding-bottom: 24px;
 }
 
-.to-settings-btn {
-  width: 180px;
-  text-decoration: none;
+.btn {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 12px;
+
+  &.to-settings-btn {
+    width: 180px;
+    text-decoration: none;
+  }
+
+  &.to-chats-btn {
+    width: 140px;
+  }
 }
 
 .to-settings-icon {

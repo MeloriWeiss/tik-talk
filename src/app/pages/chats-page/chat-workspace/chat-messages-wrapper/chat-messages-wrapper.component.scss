@@ -1,0 +1,23 @@
+:host {
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  position: relative;
+}
+
+.messages-group-date {
+  position: absolute;
+  z-index: 100;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding-top: 6px;
+  padding-bottom: 6px;
+  width: 110px;
+  text-align: center;
+  align-self: center;
+  background-color: var(--dark-active-color);
+  color: var(--light-color);
+}

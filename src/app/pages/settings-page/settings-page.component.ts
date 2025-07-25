@@ -1,12 +1,13 @@
-import {Component, effect, inject, OnInit, ViewChild} from '@angular/core';
+import {Component, effect, inject, ViewChild} from '@angular/core';
 import {ProfileHeaderComponent} from "../../common-ui/profile-header/profile-header.component";
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {SvgIconComponent} from "../../common-ui/svg-icon/svg-icon.component";
 import {Router, RouterLink} from "@angular/router";
 import {ProfileService} from "../../data/services/profile.service";
 import {firstValueFrom} from "rxjs";
 import {AvatarUploadComponent} from "./avatar-upload/avatar-upload.component";
 import {MainTextareaComponent} from "../../common-ui/main-textarea/main-textarea.component";
+import {AuthService} from "../../auth/auth.service";
 
 @Component({
   selector: 'app-settings-page',
@@ -26,6 +27,7 @@ export class SettingsPageComponent {
   fb = inject(FormBuilder);
   profileService = inject(ProfileService);
   router = inject(Router);
+  authService = inject(AuthService)
 
   @ViewChild(AvatarUploadComponent) avatarUploader!: AvatarUploadComponent;
 
@@ -34,7 +36,7 @@ export class SettingsPageComponent {
     lastName: ['', Validators.required],
     username: [{value: '', disabled: true}, Validators.required],
     description: [''],
-    stack: [''],
+    stack: ['']
   });
 
   constructor() {
@@ -91,5 +93,9 @@ export class SettingsPageComponent {
       return stack.join(', ');
     }
     return stack;
+  }
+
+  logout() {
+    this.authService.logout();
   }
 }

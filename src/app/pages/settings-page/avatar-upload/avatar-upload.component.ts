@@ -3,6 +3,8 @@ import {SvgIconComponent} from "../../../common-ui/svg-icon/svg-icon.component";
 import {DndDirective} from "../../../common-ui/directives/dnd.directive";
 import {FormsModule} from "@angular/forms";
 import {ProfileService} from "../../../data/services/profile.service";
+import {environment} from "../../../../environments/environment";
+import {takeUntilDestroyed, toObservable} from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'app-avatar-upload',
@@ -18,13 +20,19 @@ import {ProfileService} from "../../../data/services/profile.service";
 export class AvatarUploadComponent {
   profileService = inject(ProfileService);
 
-  baseApiUrl = 'https://icherniakov.ru/yt-course/';
   avatar: File | null = null;
   me = this.profileService.me;
 
   preview = signal<string>('/assets/svg/avatar-placeholder.svg');
 
   constructor() {
+    toObservable(this.me)
+      .pipe(
+        takeUntilDestroyed()
+      )
+      .subscribe(() => {
+        this.preview.set(environment.baseApiUrl + this.me()?.avatarUrl);
+      });
   }
 
   fileBrowserHandler(event: Event) {

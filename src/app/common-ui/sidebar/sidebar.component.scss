@@ -43,7 +43,7 @@
   &.active,
   &:hover,
   &:focus-visible {
-    background-color: var(--dark-hover-color);
+    background-color: var(--dark-active-color);
     color: var(--primary-color);
   }
 
@@ -67,7 +67,7 @@
   position: absolute;
   width: calc(100% - 26px);
   bottom: 20px;
-  background-color: var(--dark-hover-color);
+  background-color: var(--dark-active-color);
   border-radius: 2px;
   padding: 4px 16px;
   display: grid;

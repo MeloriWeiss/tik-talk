@@ -1,4 +1,8 @@
-<app-post-input></app-post-input>
+<app-message-input
+  placeholder="Напишите что-нибудь"
+  (created)="onCreatePost($event)"
+  class="emojis-bottom"
+></app-message-input>
 
 @for (post of feed(); track post.id) {
   <app-post [post]="post"></app-post>

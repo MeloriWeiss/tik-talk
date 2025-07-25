@@ -13,7 +13,7 @@ import {FormsModule} from "@angular/forms";
 export class MainTextareaComponent {
   r2 = inject(Renderer2);
 
-  @Input() postText = '';
+  @Input() text = '';
   placeholder = input('Напишите что-нибудь');
   rows = input('1');
 
@@ -25,6 +25,6 @@ export class MainTextareaComponent {
     this.r2.setStyle(textarea, 'height', 'auto');
     this.r2.setStyle(textarea, 'height', textarea.scrollHeight + 'px');
 
-    this.inputText.emit(this.postText);
+    this.inputText.emit(this.text);
   }
 }

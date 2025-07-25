@@ -1,0 +1,15 @@
+:host {
+  border-right: var(--light-border);
+  display: block;
+  height: 100%;
+}
+
+.chats-filters-input__wrapper {
+  padding: 16px 20px;
+  border-bottom: var(--light-border);
+  height: 76px;
+}
+
+.tt-form-input {
+  height: 44px;
+}

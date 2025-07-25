@@ -16,17 +16,17 @@ export interface Post {
   createdAt: string;
   updatedAt: string;
   likes: number;
-  comments: Comment[];
+  comments: PostComment[];
 }
 
-export interface Comment {
+export interface PostComment {
   id: number;
   text: string;
   author: Author;
   postId: number;
   commentId: number;
-  createdAt: number;
-  updatedAt: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface Author {

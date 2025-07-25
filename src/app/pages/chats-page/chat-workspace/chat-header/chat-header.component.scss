@@ -1,0 +1,15 @@
+:host {
+  display: grid;
+  place-content: center;
+  color: var(--light-color);
+  padding: 16px 20px;
+  border-bottom: var(--light-border);
+  height: 76px;
+}
+
+.companion-wrapper {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  grid-gap: 12px;
+  align-items: center;
+}

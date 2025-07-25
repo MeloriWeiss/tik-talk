@@ -1,5 +1,4 @@
 import {Component, inject} from '@angular/core';
-import {AvatarUploadComponent} from "../../settings-page/avatar-upload/avatar-upload.component";
 import {FormBuilder, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ProfileHeaderComponent} from "../../../common-ui/profile-header/profile-header.component";
 import {SvgIconComponent} from "../../../common-ui/svg-icon/svg-icon.component";
@@ -11,7 +10,6 @@ import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
   selector: 'app-profile-filters',
   standalone: true,
     imports: [
-        AvatarUploadComponent,
         FormsModule,
         ProfileHeaderComponent,
         ReactiveFormsModule,

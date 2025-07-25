@@ -1,12 +1,11 @@
 @if (profile(); as profile) {
   <app-avatar-circle
-    class="size32"
     [avatarUrl]="profile.avatarUrl"
   ></app-avatar-circle>
 }
 
 <app-main-textarea
-  [postText]="postText"
+  [text]="text"
   [placeholder]="placeholder()"
   (inputText)="onTextareaInput($event)"
   rows="1"
@@ -39,6 +38,6 @@
   <svg icon="emojis" class="emojis-icon svg16 no-select" (click)="onOpenEmojiList()"></svg>
 </div>
 
-<button class="btn btn-icon" (click)="onCreatePost()">
+<button class="btn btn-icon" (click)="onCreate()">
   <svg icon="send-message" class="svg16"></svg>
 </button>
