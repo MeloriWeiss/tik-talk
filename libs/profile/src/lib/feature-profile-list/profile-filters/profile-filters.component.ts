@@ -4,7 +4,7 @@ import { debounceTime, startWith, switchMap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SvgIconComponent } from '@tt/common-ui';
 import { ProfileHeaderComponent } from '../../ui/index';
-import { ProfileService } from '../../data/index';
+import { ProfileService } from '@tt/data-access/profile';
 
 @Component({
   selector: 'app-profile-filters',

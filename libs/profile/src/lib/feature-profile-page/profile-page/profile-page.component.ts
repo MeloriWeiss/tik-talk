@@ -6,8 +6,8 @@ import { AsyncPipe } from '@angular/common';
 import { ScrollBlockDirective } from '@tt/common-ui';
 import { ImgUrlPipe, SvgIconComponent } from '@tt/common-ui';
 import { PostFeedComponent } from '@tt/posts';
-import { ProfileService } from '../../data/index';
 import { ProfileHeaderComponent } from '../../ui';
+import { ProfileService } from '@tt/data-access/profile';
 
 @Component({
   selector: 'app-profile-page',

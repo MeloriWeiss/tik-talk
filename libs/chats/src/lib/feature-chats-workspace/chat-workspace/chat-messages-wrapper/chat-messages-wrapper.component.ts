@@ -6,13 +6,12 @@ import {
   signal,
   ViewChild,
 } from '@angular/core';
-import { ChatsService } from '../../../data/services/chats.service';
-import { PatchedChat } from '../../../data/interfaces/chats.interface';
 import { firstValueFrom } from 'rxjs';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { ChatMessagesGroupComponent } from './chat-messages-group/chat-messages-group.component';
 import { ScrollBlockDirective } from '@tt/common-ui';
 import { MessageInputComponent } from '@tt/shared';
+import { ChatsService, PatchedChat } from '@tt/data-access/chats';
 
 @Component({
   selector: 'app-chat-messages-wrapper',

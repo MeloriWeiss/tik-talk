@@ -1,7 +1,7 @@
 import { Component, EventEmitter, inject, input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AvatarCircleComponent, MainTextareaComponent, SvgIconComponent } from '@tt/common-ui';
-import { GlobalStoreService } from '../../data/index';
+import { GlobalStoreService } from '@tt/data-access/shared';
 
 @Component({
   selector: 'app-message-input',

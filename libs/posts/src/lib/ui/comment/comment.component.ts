@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { PostComment } from '../../data';
+import { PostComment } from '@tt/data-access/posts';
 import { AvatarCircleComponent, DateDiffPipe } from '@tt/common-ui';
 
 @Component({

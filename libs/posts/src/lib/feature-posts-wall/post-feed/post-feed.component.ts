@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { PostComponent } from '../post/post.component';
 import { firstValueFrom } from 'rxjs';
-import { PostService } from '../../data';
-import { GlobalStoreService } from '@tt/shared';
-import { MessageInputComponent } from '../../../../../shared/src/lib/components';
+import { PostService } from '@tt/data-access/posts';
+import { MessageInputComponent } from '@tt/shared';
+import { GlobalStoreService } from '@tt/data-access/shared';
 
 @Component({
   selector: 'app-post-feed',

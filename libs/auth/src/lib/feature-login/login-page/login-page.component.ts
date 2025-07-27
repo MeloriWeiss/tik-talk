@@ -5,8 +5,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { AuthService } from '@tt/auth';
 import { Router } from '@angular/router';
+import { AuthService } from '@tt/data-access/auth';
 
 @Component({
   selector: 'app-login-page',

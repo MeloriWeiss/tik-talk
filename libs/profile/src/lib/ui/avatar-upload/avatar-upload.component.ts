@@ -1,9 +1,9 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
-import { httpConfig } from '@tt/shared';
-import { ProfileService } from '../../data/index';
 import { DndDirective, SvgIconComponent } from '@tt/common-ui';
+import { httpConfig } from '@tt/data-access/shared';
+import { ProfileService } from '@tt/data-access/profile';
 
 @Component({
   selector: 'app-avatar-upload',

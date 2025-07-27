@@ -2,10 +2,10 @@ import { Component, effect, inject, ViewChild } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
-import { AuthService } from '@tt/auth';
-import { ProfileService } from '../../data/index';
 import { MainTextareaComponent, SvgIconComponent } from '@tt/common-ui';
 import { AvatarUploadComponent, ProfileHeaderComponent } from '../../ui/index';
+import { ProfileService } from '@tt/data-access/profile';
+import { AuthService } from '@tt/data-access/auth';
 
 @Component({
   selector: 'app-settings-page',

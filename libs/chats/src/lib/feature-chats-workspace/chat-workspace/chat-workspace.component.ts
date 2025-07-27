@@ -2,9 +2,9 @@ import { Component, inject } from '@angular/core';
 import { ChatHeaderComponent } from './chat-header/chat-header.component';
 import { ChatMessagesWrapperComponent } from './chat-messages-wrapper/chat-messages-wrapper.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ChatsService } from '../../data/services/chats.service';
-import { filter, firstValueFrom, of, switchMap, timer } from 'rxjs';
+import { filter, of, switchMap, timer } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
+import { ChatsService } from '@tt/data-access/chats';
 
 @Component({
   selector: 'app-chat-workspace',

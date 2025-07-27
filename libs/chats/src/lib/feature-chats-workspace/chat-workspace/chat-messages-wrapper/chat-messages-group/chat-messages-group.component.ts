@@ -9,7 +9,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ChatMessageComponent } from './chat-message/chat-message.component';
-import { MessagesGroup } from '../../../../data/interfaces/chats.interface';
+import { MessagesGroup } from '@tt/data-access/chats';
 
 @Component({
   selector: 'app-chat-messages-group',
