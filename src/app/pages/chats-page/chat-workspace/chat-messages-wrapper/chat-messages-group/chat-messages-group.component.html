@@ -1,8 +1,0 @@
-@if (messageGroup(); as messageGroup) {
-  <div class="messages-observer-date small-text" #dateGroupTitle>{{ messageGroup.date }}</div>
-  @for (message of messageGroup.messages; track message.id) {
-    <app-chat-message
-      [message]="message"
-    ></app-chat-message>
-  }
-}

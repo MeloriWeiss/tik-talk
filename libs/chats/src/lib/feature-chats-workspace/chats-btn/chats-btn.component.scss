@@ -1,0 +1,40 @@
+:host {
+  border: none;
+  border-bottom: var(--light-border);
+  padding: 24px 20px;
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  grid-gap: 16px;
+  width: 100%;
+  background: none;
+  cursor: pointer;
+  transition: 0.2s all;
+}
+
+:host:hover,
+:host:focus-visible,
+:host.active {
+  background-color: var(--dark-active-color);
+}
+
+.content__header {
+  display: flex;
+  justify-content: space-between;
+  color: var(--light-transparent-color);
+  margin-bottom: 16px;
+}
+
+.content__last-message {
+  color: var(--light-color);
+  display: grid;
+  grid-template-columns: 1fr 26px;
+  grid-gap: 8px;
+  text-align: left;
+}
+
+.content__text {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
