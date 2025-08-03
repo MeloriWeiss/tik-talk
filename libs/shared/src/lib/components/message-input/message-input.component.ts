@@ -1,7 +1,8 @@
 import { Component, EventEmitter, inject, input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AvatarCircleComponent, MainTextareaComponent, SvgIconComponent } from '@tt/common-ui';
-import { GlobalStoreService } from '@tt/data-access/shared';
+import { Store } from '@ngrx/store';
+import { selectMe } from '@tt/data-access/profile';
 
 @Component({
   selector: 'app-message-input',
@@ -16,7 +17,8 @@ import { GlobalStoreService } from '@tt/data-access/shared';
   styleUrl: './message-input.component.scss',
 })
 export class MessageInputComponent {
-  profile = inject(GlobalStoreService).me;
+  store = inject(Store);
+  profile = this.store.selectSignal(selectMe);
 
   placeholder = input('');
 

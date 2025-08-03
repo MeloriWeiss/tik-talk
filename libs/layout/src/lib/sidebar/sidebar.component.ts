@@ -1,10 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { SubscriberCardComponent } from './subscriber-card/subscriber-card.component';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { AsyncPipe } from '@angular/common';
-import { firstValueFrom } from 'rxjs';
 import { ImgUrlPipe, SvgIconComponent } from '@tt/common-ui';
-import { ProfileService } from '@tt/data-access/profile';
+import { AsyncPipe } from '@angular/common';
+import { profileActions, ProfileService, selectMe } from '@tt/data-access/profile';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-sidebar',
@@ -22,9 +22,10 @@ import { ProfileService } from '@tt/data-access/profile';
 })
 export class SidebarComponent implements OnInit {
   profileService = inject(ProfileService);
+  store = inject(Store);
 
   subscribers$ = this.profileService.getSubscribersShortList(3);
-  me = this.profileService.me;
+  me = this.store.selectSignal(selectMe);
 
   menuItems = [
     {
@@ -45,6 +46,6 @@ export class SidebarComponent implements OnInit {
   ];
 
   ngOnInit() {
-    firstValueFrom(this.profileService.getMe()).then();
+    this.store.dispatch(profileActions.getMe());
   }
 }

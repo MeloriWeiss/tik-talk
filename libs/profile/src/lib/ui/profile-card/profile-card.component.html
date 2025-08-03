@@ -1,27 +1,26 @@
 @if (profile) {
-<div class="profile-card">
-  <div class="avatar-name">
-    <img
-      [src]="profile.avatarUrl | imgUrl"
-      [alt]="profile.lastName"
-      class="profile-card__avatar"
-    />
-    <div class="profile-card__name">
-      <strong class="h6">{{ profile.firstName }} {{ profile.lastName }}</strong>
-      <span class="regular">{{ profile.username }}</span>
+  <div class="profile-card">
+    <a [routerLink]="['/profile', profile.id]" class="avatar-name">
+      <app-avatar-circle [avatarUrl]="profile.avatarUrl" class="size70"></app-avatar-circle>
+      <div class="profile-card__name">
+        <strong class="h6">{{ profile.firstName }} {{ profile.lastName }}</strong>
+        <span class="regular">{{ profile.username }}</span>
+      </div>
+    </a>
+
+    <div class="profile-card-description">{{ profile.description }}</div>
+
+    <div class="profile-card__tags">
+      @for (skill of profile.stack; track skill) {
+        <div class="skill-tag">{{ skill }}</div>
+      }
+    </div>
+
+    <div class="profile-card__action-btns">
+      <button class="btn">Подписаться</button>
+      <a [routerLink]="['/profile', profile.id]" class="btn btn-icon">
+        <svg icon="redirect-arrow"></svg>
+      </a>
     </div>
   </div>
-
-  <div class="profile-card-description">{{ profile.description }}</div>
-
-  <div class="profile-card__tags">
-    @for (skill of profile.stack; track skill) {
-    <div class="skill-tag">{{ skill }}</div>
-    }
-  </div>
-
-  <div class="profile-card__action-btns">
-    <button class="btn">Подписаться</button>
-  </div>
-</div>
 }

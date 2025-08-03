@@ -3,6 +3,7 @@
   grid-template-columns: 32px 1fr;
   grid-gap: 12px;
   max-width: 45%;
+  margin-bottom: 12px;
 
   &.is-mine {
     grid-template-columns: 1fr 32px;
@@ -11,10 +12,12 @@
     .message-container {
       order: -1;
       justify-items: end;
+      display: grid;
     }
 
     .message-text {
       background-color: var(--primary-color);
+      justify-self: end;
 
       &::before {
         display: none;

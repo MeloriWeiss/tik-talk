@@ -3,7 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { DndDirective, SvgIconComponent } from '@tt/common-ui';
 import { httpConfig } from '@tt/data-access/shared';
-import { ProfileService } from '@tt/data-access/profile';
+import { selectMe } from '@tt/data-access/profile';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-avatar-upload',
@@ -13,12 +14,12 @@ import { ProfileService } from '@tt/data-access/profile';
   styleUrl: './avatar-upload.component.scss',
 })
 export class AvatarUploadComponent {
-  profileService = inject(ProfileService);
+  store = inject(Store);
 
   avatar: File | null = null;
   baseApiUrl = httpConfig.baseApiUrl;
 
-  me = this.profileService.me;
+  me = this.store.selectSignal(selectMe);
   preview = signal<string>('/assets/svg/avatar-placeholder.svg');
 
   constructor() {

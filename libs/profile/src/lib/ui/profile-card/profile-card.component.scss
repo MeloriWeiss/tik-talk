@@ -4,25 +4,29 @@
   display: grid;
   grid-template-columns: 350px repeat(3, 1fr);
   grid-gap: 32px;
+  align-items: center;
 }
 
 .avatar-name {
   display: grid;
   grid-template-columns: 70px 1fr;
   grid-gap: 20px;
-}
-
-.profile-card__avatar {
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  overflow: hidden;
+  align-items: center;
+  text-decoration: none;
+  color: var(--light-color);
 }
 
 .profile-card__name {
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+.profile-card-description {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .profile-card__tags {
@@ -34,8 +38,12 @@
 
 .profile-card__action-btns {
   justify-self: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
 
-  .btn {
+  .btn:not(.btn-icon) {
     width: 157px;
   }
 }

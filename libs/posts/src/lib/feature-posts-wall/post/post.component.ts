@@ -1,14 +1,21 @@
-import { Component, inject, input, OnInit, signal } from '@angular/core';
+import {
+  Component, computed,
+  effect,
+  ElementRef,
+  inject,
+  input, OnInit, Signal,
+  ViewChild
+} from '@angular/core';
 import { CommentComponent } from '../../ui';
-import { firstValueFrom } from 'rxjs';
 import {
   AvatarCircleComponent,
   DateDiffPipe,
   SvgIconComponent,
 } from '@tt/common-ui';
-import { Post, PostComment, PostService } from '@tt/data-access/posts';
+import { Post, PostComment, postsActions, selectCommentsByPostId } from '@tt/data-access/posts';
 import { MessageInputComponent } from '@tt/shared';
-import { GlobalStoreService } from '@tt/data-access/shared';
+import { Store } from '@ngrx/store';
+import { selectMe } from '@tt/data-access/profile';
 
 @Component({
   selector: 'app-post',
@@ -24,28 +31,44 @@ import { GlobalStoreService } from '@tt/data-access/shared';
   styleUrl: './post.component.scss',
 })
 export class PostComponent implements OnInit {
-  postService = inject(PostService);
+  store = inject(Store);
 
   post = input<Post>();
-  comments = signal<PostComment[]>([]);
-  profile = inject(GlobalStoreService).me;
+  profile = this.store.selectSignal(selectMe);
+  comms!: Signal<PostComment[]>;
+
+  comments = computed(() => {
+    if (this.comms()?.length > 0) {
+      return this.comms();
+    }
+    return this.post()?.comments;
+  });
+
+  @ViewChild('commentsContainer') commentsContainer!: ElementRef;
+
+  constructor() {
+    effect(() => {
+      this.comments();
+      requestAnimationFrame(() => {
+        this.commentsContainer.nativeElement.scrollTop =
+          this.commentsContainer.nativeElement.scrollHeight;
+      });
+    });
+  }
 
   ngOnInit() {
-    this.comments.set(this.post()!.comments);
+    this.comms = this.store.selectSignal(selectCommentsByPostId(this.post()!.id));
   }
 
   async onCreatedComment(text: string) {
-    await firstValueFrom(
-      this.postService.createComment({
-        text: text,
-        authorId: this.profile()!.id,
-        postId: this.post()!.id,
+    this.store.dispatch(
+      postsActions.createComment({
+        payload: {
+          text: text,
+          authorId: this.profile()!.id,
+          postId: this.post()!.id,
+        },
       })
     );
-
-    const comments = await firstValueFrom(
-      this.postService.getCommentsByPostId(this.post()!.id)
-    );
-    this.comments.set(comments);
   }
 }

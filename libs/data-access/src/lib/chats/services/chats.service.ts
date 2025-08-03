@@ -1,22 +1,19 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {
-  Chat,
-  ChatsListItem,
-  Message,
-  MessagesGroup,
-} from '../interfaces/chats.interface';
+import { Chat, ChatsListItem, Message, MessagesGroup } from '../index';
 import { map } from 'rxjs';
 import { DateTime } from 'luxon';
 import { DateUtil } from '@tt/common-ui';
-import { GlobalStoreService, httpConfig } from '../../shared/index';
+import { httpConfig } from '../../shared/index';
+import { Store } from '@ngrx/store';
+import { selectMe } from '../../profile';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatsService {
   http = inject(HttpClient);
-  me = inject(GlobalStoreService).me;
+  me = inject(Store).selectSignal(selectMe);
 
   activeChatMessages = signal<MessagesGroup[]>([]);
 

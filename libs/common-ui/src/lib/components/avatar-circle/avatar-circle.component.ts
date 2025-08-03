@@ -9,7 +9,7 @@ import { ImgUrlPipe } from '../../pipes/index';
   styleUrl: './avatar-circle.component.scss',
 })
 export class AvatarCircleComponent {
-  avatarUrl = input<string | null | undefined>(
-    '/assets/svg/avatar-placeholder.svg'
-  );
+  initialUrl = 'assets/svg/avatar-placeholder.svg';
+
+  avatarUrl = input<string | null | undefined>(this.initialUrl);
 }

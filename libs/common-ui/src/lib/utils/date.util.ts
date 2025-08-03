@@ -47,7 +47,7 @@ export class DateUtil {
   }
 
   static getEndOfSecondsBack(seconds: number): string {
-    if (seconds % 10 > 4 || (seconds > 10 && seconds < 15)) {
+    if (seconds % 10 > 4 || seconds % 10 === 0 || (seconds > 10 && seconds < 15)) {
       return this.baseSeconds;
     }
     if (seconds % 10 > 1) {

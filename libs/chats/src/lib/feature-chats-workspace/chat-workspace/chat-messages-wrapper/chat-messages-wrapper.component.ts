@@ -29,7 +29,6 @@ export class ChatMessagesWrapperComponent {
 
   chat = input.required<PatchedChat>();
   messagesGroups = this.chatsService.activeChatMessages;
-
   currentMessagesGroupDate = signal<string>('');
 
   @ViewChild('messagesContainer') messagesContainer!: ElementRef;

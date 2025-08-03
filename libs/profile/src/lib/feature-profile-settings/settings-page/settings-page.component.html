@@ -1,6 +1,6 @@
 <app-profile-header></app-profile-header>
 
-<form class="profile-form__wrapper" [formGroup]="form">
+<form class="profile-form__wrapper" (ngSubmit)="onSave()" [formGroup]="form">
   <div class="profile-form">
     <div class="two-columns">
       <label class="tt-form-label">
@@ -50,10 +50,10 @@
       </button>
     </div>
     <div class="profile-actions__controls">
-      <a [routerLink]="['../profile', 'me']">
-        <button class="btn btn-transparent">Отмена</button>
+      <a [routerLink]="['/profile', 'me']">
+        <button class="btn btn-transparent" type="button">Отмена</button>
       </a>
-      <button class="btn" (click)="onSave()">Сохранить</button>
+      <button class="btn">Сохранить</button>
     </div>
   </div>
 </form>

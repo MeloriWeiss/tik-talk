@@ -3,9 +3,7 @@
 
   <main class="post-body small-text">
     <div class="post-header">
-      <strong class="post-author bold"
-      >{{ post.author.firstName }} {{ post.author.lastName }}</strong
-      >
+      <strong class="post-author bold">{{ post.author.firstName }} {{ post.author.lastName }}</strong>
       <span class="post-created-at ml8">{{ post.createdAt | dateDiff }}</span>
     </div>
     <p>{{ post.content }}</p>
@@ -13,7 +11,7 @@
     <div class="post-counters">
     <span class="post-counter">
       <svg icon="messages" class="svg16"></svg>
-      <span>{{ comments().length }}</span>
+      <span>{{ comments()?.length }}</span>
     </span>
       <span class="post-counter">
       <svg icon="likes" class="svg16"></svg>
@@ -21,7 +19,7 @@
     </span>
     </div>
 
-    <div class="post__comments-wrapper scrollbar">
+    <div class="post__comments-wrapper scrollbar" #commentsContainer>
       @for (comment of comments(); track comment.id) {
         <app-comment [comment]="comment"></app-comment>
       }

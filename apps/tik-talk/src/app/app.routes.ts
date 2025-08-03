@@ -1,11 +1,19 @@
 import { Routes } from '@angular/router';
 import { canActivateAuth, LoginPageComponent } from '@tt/auth';
-import { ExpRFormsComponent } from './experimental/exp-r-forms/exp-r-forms.component';
-import { ExpTdFormsComponent } from './experimental/exp-td-forms/exp-td-forms.component';
-import { ExpMyFormComponent } from './experimental/exp-my-form/exp-my-form.component';
-import { ProfilePageComponent, SearchPageComponent, SettingsPageComponent } from '@tt/profile';
+import { ExpRFormsComponent } from '@tt/experimental';
+import { ExpTdFormsComponent } from '@tt/experimental';
+import { ExpMyFormComponent } from '@tt/experimental';
+import {
+  ProfilePageComponent,
+  SearchPageComponent,
+  SettingsPageComponent,
+} from '@tt/profile';
 import { chatsRoutes } from '@tt/chats';
 import { LayoutComponent } from '@tt/layout';
+import { provideState } from '@ngrx/store';
+import { provideEffects } from '@ngrx/effects';
+import { ProfileEffects, profileFeature } from '@tt/data-access/profile';
+import { PostsEffects, postsFeature } from '@tt/data-access/posts';
 
 export const routes: Routes = [
   {
@@ -13,7 +21,11 @@ export const routes: Routes = [
     component: LayoutComponent,
     children: [
       { path: '', redirectTo: 'profile/me', pathMatch: 'full' },
-      { path: 'profile/:id', component: ProfilePageComponent },
+      {
+        path: 'profile/:id',
+        component: ProfilePageComponent,
+        providers: [provideState(postsFeature), provideEffects(PostsEffects)],
+      },
       { path: 'settings', component: SettingsPageComponent },
       { path: 'search', component: SearchPageComponent },
       {
@@ -21,6 +33,7 @@ export const routes: Routes = [
         loadChildren: () => chatsRoutes,
       },
     ],
+    providers: [provideState(profileFeature), provideEffects(ProfileEffects)],
     canActivate: [canActivateAuth],
   },
   { path: 'login', component: LoginPageComponent },

@@ -1,13 +1,13 @@
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { switchMap } from 'rxjs';
-import { toObservable } from '@angular/core/rxjs-interop';
 import { AsyncPipe } from '@angular/common';
 import { ScrollBlockDirective } from '@tt/common-ui';
 import { ImgUrlPipe, SvgIconComponent } from '@tt/common-ui';
 import { PostFeedComponent } from '@tt/posts';
 import { ProfileHeaderComponent } from '../../ui';
-import { ProfileService } from '@tt/data-access/profile';
+import { ProfileService, selectMe } from '@tt/data-access/profile';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-profile-page',
@@ -26,17 +26,18 @@ import { ProfileService } from '@tt/data-access/profile';
 })
 export class ProfilePageComponent {
   profileService = inject(ProfileService);
+  store = inject(Store);
   route = inject(ActivatedRoute);
   router = inject(Router);
 
-  me$ = toObservable(this.profileService.me);
+  me$ = this.store.select(selectMe);
   subscribers$ = this.profileService.getSubscribersShortList(6);
 
   isMyPage = signal(false);
 
   profile$ = this.route.params.pipe(
     switchMap(({ id }) => {
-      this.isMyPage.set(id === 'me' || id === this.profileService.me()!.id);
+      this.isMyPage.set(id === 'me' || id === this.store.selectSignal(selectMe)()?.id);
 
       if (this.isMyPage()) {
         return this.me$;

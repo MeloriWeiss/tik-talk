@@ -4,8 +4,9 @@ import { Router, RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { MainTextareaComponent, SvgIconComponent } from '@tt/common-ui';
 import { AvatarUploadComponent, ProfileHeaderComponent } from '../../ui/index';
-import { ProfileService } from '@tt/data-access/profile';
+import { profileActions, ProfileService, selectMe } from '@tt/data-access/profile';
 import { AuthService } from '@tt/data-access/auth';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-settings-page',
@@ -26,6 +27,7 @@ export class SettingsPageComponent {
   profileService = inject(ProfileService);
   router = inject(Router);
   authService = inject(AuthService);
+  store = inject(Store);
 
   @ViewChild(AvatarUploadComponent) avatarUploader!: AvatarUploadComponent;
 
@@ -38,12 +40,12 @@ export class SettingsPageComponent {
   });
 
   constructor() {
+    const me = this.store.selectSignal(selectMe);
+
     effect(() => {
-      //@ts-ignore
       this.form.patchValue({
-        ...this.profileService.me(),
-        //@ts-ignore
-        stack: this.mergeStack(this.profileService.me()?.stack),
+        ...me(),
+        stack: this.mergeStack(me()?.stack),
       });
     });
   }
@@ -66,15 +68,17 @@ export class SettingsPageComponent {
       ).then();
     }
 
-    firstValueFrom(
-    //@ts-ignore
-      this.profileService.patchProfile({
-        ...this.form.value,
-        stack: this.splitStack(this.form.value.stack),
+    this.store.dispatch(
+      profileActions.patchProfile({
+        //@ts-ignore
+        profile: {
+          ...this.form.value,
+          stack: this.splitStack(this.form.value.stack),
+        },
       })
-    ).then(() => {
-      this.router.navigate(['/profile/me']).then();
-    });
+    );
+
+    this.router.navigate(['/profile/me']).then();
   }
 
   splitStack(stack: string | null | undefined | string[]): string[] {
