@@ -1,17 +1,18 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   inject,
-  input,
+  input, OnDestroy,
   signal,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { ChatMessagesGroupComponent } from './chat-messages-group/chat-messages-group.component';
 import { ScrollBlockDirective } from '@tt/common-ui';
 import { MessageInputComponent } from '@tt/shared';
 import { ChatsService, PatchedChat } from '@tt/data-access/chats';
+import { Subscription, tap } from 'rxjs';
 
 @Component({
   selector: 'app-chat-messages-wrapper',
@@ -24,7 +25,7 @@ import { ChatsService, PatchedChat } from '@tt/data-access/chats';
   templateUrl: './chat-messages-wrapper.component.html',
   styleUrl: './chat-messages-wrapper.component.scss',
 })
-export class ChatMessagesWrapperComponent {
+export class ChatMessagesWrapperComponent implements AfterViewInit, OnDestroy {
   chatsService = inject(ChatsService);
 
   chat = input.required<PatchedChat>();
@@ -32,6 +33,7 @@ export class ChatMessagesWrapperComponent {
   currentMessagesGroupDate = signal<string>('');
 
   @ViewChild('messagesContainer') messagesContainer!: ElementRef;
+  scrollContainerSub: Subscription | null = null;
 
   constructor() {
     toObservable(this.chat)
@@ -50,14 +52,23 @@ export class ChatMessagesWrapperComponent {
   }
 
   async onSendMessage(messageText: string) {
-    await firstValueFrom(
-      this.chatsService.sendMessage(this.chat().id, messageText)
-    );
-    await firstValueFrom(this.chatsService.getChatById(this.chat().id));
+    this.chatsService.wsAdaptor.sendMessage(messageText, this.chat().id);
+  }
 
-    requestAnimationFrame(() => {
-      this.messagesContainer.nativeElement.scrollTop =
-        this.messagesContainer.nativeElement.scrollHeight;
-    });
+  ngAfterViewInit() {
+    this.scrollContainerSub = this.chatsService.messages$
+      .pipe(
+        tap(() => {
+          requestAnimationFrame(() => {
+            this.messagesContainer.nativeElement.scrollTop =
+              this.messagesContainer.nativeElement.scrollHeight;
+          });
+        })
+      )
+      .subscribe();
+  }
+
+  ngOnDestroy() {
+    this.scrollContainerSub?.unsubscribe();
   }
 }

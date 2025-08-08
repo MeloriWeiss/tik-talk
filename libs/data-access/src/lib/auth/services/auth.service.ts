@@ -66,7 +66,7 @@ export class AuthService {
     this.accessToken = res.access_token;
     this.refreshToken = res.refresh_token;
 
-    this.cookieService.set('accessToken', this.accessToken);
-    this.cookieService.set('refreshToken', this.refreshToken);
+    this.cookieService.set('accessToken', this.accessToken, { path: '/' });
+    this.cookieService.set('refreshToken', this.refreshToken, { path: '/' });
   }
 }

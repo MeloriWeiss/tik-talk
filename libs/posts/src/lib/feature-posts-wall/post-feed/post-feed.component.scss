@@ -1,5 +1,9 @@
 :host {
+  overflow-y: scroll;
+}
+
+.posts-wrapper {
   display: grid;
   grid-gap: 16px;
-  overflow-y: scroll;
+  margin-top: 16px;
 }

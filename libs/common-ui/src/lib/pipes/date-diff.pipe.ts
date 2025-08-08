@@ -54,7 +54,7 @@ export class DateDiffPipe implements PipeTransform {
     }
 
     return `${Math.ceil(seconds)} ${DateUtil.getEndOfSecondsBack(
-      seconds
+      Math.ceil(seconds)
     )} назад`;
   }
 }

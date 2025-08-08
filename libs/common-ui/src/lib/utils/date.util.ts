@@ -1,15 +1,11 @@
+import { DateTime } from 'luxon';
+
+type dateFormats = 'sql' | 'iso';
+
 export class DateUtil {
   private static baseHours = 'час';
   private static baseMinutes = 'минут';
   private static baseSeconds = 'секунд';
-
-  // static createCorrectDateString(day: number, month: number, year: number): string {
-  //   return `${this.toCorrectDatePart(day)}.${this.toCorrectDatePart(month)}.${this.toCorrectDatePart(year)}`;
-  // }
-  //
-  // private static toCorrectDatePart(datePart: number): string {
-  //   return `${String(datePart).length < 2 ? ('0' + datePart) : datePart}`;
-  // }
 
   static createCorrectDateString(
     separator: string,
@@ -47,12 +43,50 @@ export class DateUtil {
   }
 
   static getEndOfSecondsBack(seconds: number): string {
-    if (seconds % 10 > 4 || seconds % 10 === 0 || (seconds > 10 && seconds < 15)) {
+    if (
+      seconds % 10 > 4 ||
+      seconds % 10 === 0 ||
+      (seconds > 10 && seconds < 15)
+    ) {
       return this.baseSeconds;
     }
     if (seconds % 10 > 1) {
       return this.baseSeconds + 'ы';
     }
     return this.baseSeconds + 'у';
+  }
+
+  static getFormattedDate(date: string) {
+    const dateTime = this.getLocalDateTime(date);
+
+    return DateUtil.createCorrectDateString(
+      '.',
+      dateTime.day,
+      dateTime.month,
+      dateTime.year
+    );
+  }
+
+  static getFormattedToday() {
+    const today = DateTime.local();
+    return this.createCorrectDateString(
+      '.',
+      today.day,
+      today.month,
+      today.year
+    );
+  }
+
+  static getLocalDateTime(date: string) {
+    const format = this.getDateFormat(date);
+    const now = DateTime.local();
+
+    return format === 'sql'
+      ? DateTime.fromSQL(date, { zone: 'utc' }).setZone(now.zone.name)
+      : DateTime.fromISO(date, { zone: 'utc' }).setZone(now.zone.name);
+  }
+
+  static getDateFormat(date: string): dateFormats {
+    return date.split(' ').length === 1 ? 'iso' : 'sql';
   }
 }

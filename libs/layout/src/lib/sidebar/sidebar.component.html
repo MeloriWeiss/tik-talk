@@ -3,16 +3,19 @@
 <nav>
   <ul class="main-menu-list">
     @for (menuItem of menuItems; track menuItem.link) {
-    <li>
-      <a
-        [routerLink]="[menuItem.link]"
-        routerLinkActive="active"
-        class="menu-item"
-      >
-        <svg class="menu-item__icon" [icon]="menuItem.icon"></svg>
-        <span class="menu-item__text">{{ menuItem.label }}</span>
-      </a>
-    </li>
+      <li>
+        <a
+          [routerLink]="[menuItem.link]"
+          routerLinkActive="active"
+          class="menu-item"
+        >
+          <svg class="menu-item__icon" [icon]="menuItem.icon"></svg>
+          <span class="menu-item__text">{{ menuItem.label }}</span>
+          @if (menuItem.link === menuLinks.CHATS && unreadMessagesCount()) {
+            <div class="badge">{{ unreadMessagesCount() }}</div>
+          }
+        </a>
+      </li>
     }
   </ul>
 </nav>
@@ -21,7 +24,7 @@
   <p class="small-text mt20 mb20">Подписчики</p>
 
   @for (profile of subscribers$ | async; track profile.id) {
-  <app-subscriber-card [profile]="profile"></app-subscriber-card>
+    <app-subscriber-card [profile]="profile"></app-subscriber-card>
   }
 
   <div class="mt20 to-subscribers">
@@ -34,15 +37,15 @@
 
 <footer class="sidebar__footer">
   @if (me(); as me) {
-  <img
-    [src]="(me.avatarUrl | imgUrl) || '/assets/svg/avatar-placeholder.svg'"
-    [alt]="me.lastName"
-    class="sidebar__footer-img"
-  />
-  <div class="sidebar__footer-username regular">{{ me.username }}</div>
+    <img
+      [src]="(me.avatarUrl | imgUrl) || '/assets/svg/avatar-placeholder.svg'"
+      [alt]="me.lastName"
+      class="sidebar__footer-img"
+    />
+    <div class="sidebar__footer-username regular">{{ me.username }}</div>
 
-  <a routerLink="/settings" class="settings-btn">
-    <svg icon="settings" class="settings-icon"></svg>
-  </a>
+    <a routerLink="/settings" class="settings-btn">
+      <svg icon="settings" class="settings-icon"></svg>
+    </a>
   }
 </footer>

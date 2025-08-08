@@ -2,10 +2,11 @@ import { Component, inject } from '@angular/core';
 import { ChatsBtnComponent } from '../chats-btn/chats-btn.component';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AsyncPipe } from '@angular/common';
-import { RouterLink, RouterLinkActive } from '@angular/router';
-import { map, startWith, switchMap } from 'rxjs';
+import { ActivatedRoute, RouterLink, RouterLinkActive } from '@angular/router';
+import { map, startWith, switchMap, tap } from 'rxjs';
 import { ScrollBlockDirective, SvgIconComponent } from '@tt/common-ui';
 import { ChatsService } from '@tt/data-access/chats';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-chats-list',
@@ -28,16 +29,21 @@ export class ChatsListComponent {
 
   filterChatsControl = new FormControl('');
 
-  chats$ = this.chatsService.getMyChats().pipe(
-    switchMap((chats) => {
-      return this.filterChatsControl.valueChanges.pipe(
-        startWith(''),
-        map((inputValue) => {
-          return chats.filter((chat) => {
-            return `${chat.userFrom.firstName} ${chat.userFrom.lastName}`
-              .toLowerCase()
-              .includes(inputValue?.toLowerCase() ?? '');
-          });
+  chats$ = this.chatsService.messages$.pipe(
+    switchMap(() => {
+      return this.chatsService.getMyChats().pipe(
+        switchMap((chats) => {
+          return this.filterChatsControl.valueChanges.pipe(
+            startWith(''),
+            map((inputValue) => {
+              return chats
+                .filter((chat) => {
+                  return `${chat.userFrom.firstName} ${chat.userFrom.lastName}`
+                    .toLowerCase()
+                    .includes(inputValue?.toLowerCase() ?? '');
+                })
+            })
+          );
         })
       );
     })

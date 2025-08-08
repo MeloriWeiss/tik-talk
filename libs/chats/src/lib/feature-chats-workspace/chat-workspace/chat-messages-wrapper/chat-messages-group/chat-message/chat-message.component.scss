@@ -5,6 +5,10 @@
   max-width: 45%;
   margin-bottom: 12px;
 
+  &:last-child {
+    margin-bottom: 0;
+  }
+
   &.is-mine {
     grid-template-columns: 1fr 32px;
     justify-self: end;

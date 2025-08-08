@@ -1,6 +1,8 @@
-import { Component, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { AvatarCircleComponent, DateDiffPipe } from '@tt/common-ui';
 import { ChatsListItem } from '@tt/data-access/chats';
+import { selectMe } from '@tt/data-access/profile';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'button[chats]',
@@ -10,5 +12,7 @@ import { ChatsListItem } from '@tt/data-access/chats';
   styleUrl: './chats-btn.component.scss',
 })
 export class ChatsBtnComponent {
+  me = inject(Store).selectSignal(selectMe);
+
   chat = input<ChatsListItem>();
 }

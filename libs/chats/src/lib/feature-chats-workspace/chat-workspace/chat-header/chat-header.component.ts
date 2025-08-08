@@ -10,5 +10,5 @@ import { Profile } from '@tt/data-access/profile';
   styleUrl: './chat-header.component.scss',
 })
 export class ChatHeaderComponent {
-  profile = input.required<Profile>();
+  profile = input<Profile>();
 }
