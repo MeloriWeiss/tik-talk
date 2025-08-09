@@ -1,12 +1,12 @@
 import {
-  AfterViewInit,
+  AfterViewInit, ChangeDetectionStrategy,
   Component,
   ElementRef,
   EventEmitter,
   input,
   OnDestroy,
   Output,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import { ChatMessageComponent } from './chat-message/chat-message.component';
 import { MessagesGroup } from '@tt/data-access/chats';
@@ -17,6 +17,7 @@ import { MessagesGroup } from '@tt/data-access/chats';
   imports: [ChatMessageComponent],
   templateUrl: './chat-messages-group.component.html',
   styleUrl: './chat-messages-group.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChatMessagesGroupComponent implements AfterViewInit, OnDestroy {
   messageGroup = input<MessagesGroup>();

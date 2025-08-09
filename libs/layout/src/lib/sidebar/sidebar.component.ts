@@ -1,4 +1,10 @@
-import { Component, DestroyRef, inject, input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+  OnInit,
+} from '@angular/core';
 import { SubscriberCardComponent } from './subscriber-card/subscriber-card.component';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { ImgUrlPipe, SvgIconComponent } from '@tt/common-ui';
@@ -9,9 +15,13 @@ import {
   selectMe,
 } from '@tt/data-access/profile';
 import { Store } from '@ngrx/store';
-import { ChatsService, isErrorMessage } from '@tt/data-access/chats';
+import {
+  ChatsService,
+  isErrorMessage,
+  selectUnreadMessagesCount,
+} from '@tt/data-access/chats';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { firstValueFrom, Subscription } from 'rxjs';
+import { firstValueFrom, Subscription, timer } from 'rxjs';
 import { AuthService } from '@tt/data-access/auth';
 
 enum menuLinks {
@@ -33,6 +43,7 @@ enum menuLinks {
   ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarComponent implements OnInit {
   profileService = inject(ProfileService);
@@ -41,7 +52,7 @@ export class SidebarComponent implements OnInit {
   #authService = inject(AuthService);
   destroyRef = inject(DestroyRef);
 
-  unreadMessagesCount = this.#chatsService.unreadMessagesCount;
+  unreadMessagesCount = this.store.selectSignal(selectUnreadMessagesCount);
   me = this.store.selectSignal(selectMe);
 
   subscribers$ = this.profileService.getSubscribersShortList(3);
@@ -78,6 +89,7 @@ export class SidebarComponent implements OnInit {
       .subscribe(async (message) => {
         if (isErrorMessage(message)) {
           await firstValueFrom(this.#authService.refreshAuthToken());
+          await firstValueFrom(timer(2000));
           this.connectWs();
         }
       });

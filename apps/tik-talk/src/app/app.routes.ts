@@ -14,6 +14,7 @@ import { provideState } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { ProfileEffects, profileFeature } from '@tt/data-access/profile';
 import { PostsEffects, postsFeature } from '@tt/data-access/posts';
+import { ChatsEffects, chatsFeature } from '@tt/data-access/chats';
 
 export const routes: Routes = [
   {
@@ -33,7 +34,11 @@ export const routes: Routes = [
         loadChildren: () => chatsRoutes,
       },
     ],
-    providers: [provideState(profileFeature), provideEffects(ProfileEffects)],
+    providers: [
+      provideState(profileFeature),
+      provideState(chatsFeature),
+      provideEffects([ProfileEffects, ChatsEffects]),
+    ],
     canActivate: [canActivateAuth],
   },
   { path: 'login', component: LoginPageComponent },

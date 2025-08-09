@@ -1,11 +1,12 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   inject,
   input,
   Input,
   Output,
-  Renderer2,
+  Renderer2
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
@@ -15,6 +16,7 @@ import { FormsModule } from '@angular/forms';
   imports: [FormsModule],
   templateUrl: './main-textarea.component.html',
   styleUrl: './main-textarea.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainTextareaComponent {
   r2 = inject(Renderer2);

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -43,6 +43,7 @@ const validateRepeatedProfessions: ValidatorFn = (control: AbstractControl) => {
   imports: [ReactiveFormsModule, MaskitoDirective],
   templateUrl: './exp-my-form.component.html',
   styleUrl: './exp-my-form.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExpMyFormComponent {
   myMockService = inject(MyMockService);

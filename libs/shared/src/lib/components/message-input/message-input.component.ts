@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, inject, input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AvatarCircleComponent, MainTextareaComponent, SvgIconComponent } from '@tt/common-ui';
 import { Store } from '@ngrx/store';
@@ -15,6 +15,7 @@ import { selectMe } from '@tt/data-access/profile';
   ],
   templateUrl: './message-input.component.html',
   styleUrl: './message-input.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MessageInputComponent {
   store = inject(Store);

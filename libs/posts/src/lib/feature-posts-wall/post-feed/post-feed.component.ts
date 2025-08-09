@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { PostComponent } from '../post/post.component';
 import { postsActions, selectPosts } from '@tt/data-access/posts';
 import { MessageInputComponent } from '@tt/shared';
@@ -11,6 +11,7 @@ import { selectMe } from '@tt/data-access/profile';
   imports: [PostComponent, MessageInputComponent],
   templateUrl: './post-feed.component.html',
   styleUrl: './post-feed.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PostFeedComponent {
   store = inject(Store);

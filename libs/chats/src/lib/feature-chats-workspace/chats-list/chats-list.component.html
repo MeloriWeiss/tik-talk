@@ -11,7 +11,7 @@
 </div>
 
 <div class="chats-wrapper scrollbar scroll-hidden" scrollBlock [diff]="1">
-  @for (chat of chats$ | async; track chat.id) {
+  @for (chat of chats(); track chat.id) {
   <button
     chats
     [chat]="chat"

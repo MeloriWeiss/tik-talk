@@ -1,5 +1,5 @@
 import {
-  AfterViewInit,
+  AfterViewInit, ChangeDetectionStrategy,
   Component,
   ElementRef,
   inject,
@@ -11,8 +11,9 @@ import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { ChatMessagesGroupComponent } from './chat-messages-group/chat-messages-group.component';
 import { ScrollBlockDirective } from '@tt/common-ui';
 import { MessageInputComponent } from '@tt/shared';
-import { ChatsService, PatchedChat } from '@tt/data-access/chats';
+import { ChatsService, PatchedChat, selectActiveChatMessages } from '@tt/data-access/chats';
 import { Subscription, tap } from 'rxjs';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-chat-messages-wrapper',
@@ -24,12 +25,14 @@ import { Subscription, tap } from 'rxjs';
   ],
   templateUrl: './chat-messages-wrapper.component.html',
   styleUrl: './chat-messages-wrapper.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChatMessagesWrapperComponent implements AfterViewInit, OnDestroy {
   chatsService = inject(ChatsService);
+  store = inject(Store);
 
   chat = input.required<PatchedChat>();
-  messagesGroups = this.chatsService.activeChatMessages;
+  messagesGroups = this.store.selectSignal(selectActiveChatMessages);
   currentMessagesGroupDate = signal<string>('');
 
   @ViewChild('messagesContainer') messagesContainer!: ElementRef;

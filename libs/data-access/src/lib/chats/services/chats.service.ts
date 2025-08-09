@@ -10,14 +10,13 @@ import {
   ChatWSMessage,
   Chat,
   ChatsListItem,
-  Message,
   MessagesGroup,
   PatchedChat,
-  isNewMessage,
-  isUnreadMessage,
+  ChatLoadedResponse,
 } from '../interfaces';
 import { AuthService } from '../../auth/index';
 import { ChatWSRxjsService } from './chat-ws-rxjs.service';
+import { chatsActions } from '../store';
 
 @Injectable({
   providedIn: 'root',
@@ -25,16 +24,11 @@ import { ChatWSRxjsService } from './chat-ws-rxjs.service';
 export class ChatsService {
   http = inject(HttpClient);
   authService = inject(AuthService);
+  store = inject(Store);
   me = inject(Store).selectSignal(selectMe);
 
-  activeChat = signal<PatchedChat | null>(null);
-  activeChatMessages = signal<MessagesGroup[]>([]);
-  unreadMessagesCount = signal(0);
-
   wsAdaptor: ChatWSService = new ChatWSRxjsService();
-
   messages$ = new BehaviorSubject<null>(null);
-
   baseApiUrl = httpConfig.baseApiUrl;
 
   connectWs() {
@@ -46,52 +40,7 @@ export class ChatsService {
   }
 
   handleWSMessage = (message: ChatWSMessage) => {
-    if (!('action' in message)) {
-      return;
-    }
-
-    if (isUnreadMessage(message)) {
-      this.unreadMessagesCount.set(message.data.count);
-    }
-
-    if (isNewMessage(message)) {
-      const messagesGroups = this.activeChatMessages();
-
-      const formattedToday = DateUtil.getFormattedToday();
-      let formattedDate = DateUtil.getFormattedDate(message.data.created_at);
-
-      formattedDate =
-        formattedToday === formattedDate ? 'Сегодня' : formattedDate;
-
-      const existingMessageGroup = messagesGroups.find(
-        (group) => group.date === formattedDate
-      );
-
-      const newMessage: Message = {
-        id: message.data.id,
-        userFromId: message.data.author,
-        personalChatId: message.data.chat_id,
-        text: message.data.message,
-        createdAt: message.data.created_at,
-        isRead: false,
-        isMine: message.data.author === this.me()?.id,
-        user:
-          this.activeChat()?.userFirst.id === message.data.author
-            ? this.activeChat()?.userFirst
-            : this.activeChat()?.userSecond,
-      };
-
-      if (existingMessageGroup) {
-        existingMessageGroup.messages.push(newMessage);
-      } else {
-        messagesGroups.push({
-          date: formattedDate,
-          messages: [newMessage],
-        });
-      }
-
-      this.activeChatMessages.set(messagesGroups);
-    }
+    this.store.dispatch(chatsActions.newMessage({ message }));
     this.messages$.next(null);
   };
 
@@ -112,7 +61,7 @@ export class ChatsService {
       );
   }
 
-  getChatById(chatId: number): Observable<PatchedChat> {
+  getChatById(chatId: number): Observable<ChatLoadedResponse> {
     const formattedToday = DateUtil.getFormattedToday();
 
     return this.http.get<Chat>(`${this.baseApiUrl}chat/${chatId}`).pipe(
@@ -148,8 +97,6 @@ export class ChatsService {
           });
         });
 
-        this.activeChatMessages.set(messagesGroups);
-
         const newActiveChat = {
           ...chat,
           companion:
@@ -159,9 +106,10 @@ export class ChatsService {
           messages: messagesGroups,
         };
 
-        this.activeChat.set(newActiveChat);
-
-        return newActiveChat;
+        return {
+          activeChat: newActiveChat,
+          activeChatMessages: messagesGroups,
+        };
       })
     );
   }

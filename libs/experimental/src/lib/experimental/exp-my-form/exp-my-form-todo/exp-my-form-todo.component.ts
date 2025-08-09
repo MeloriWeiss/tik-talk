@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   FormArray,
   FormControl,
@@ -43,6 +43,7 @@ function getInternshipForm(
   imports: [ReactiveFormsModule],
   templateUrl: './exp-my-form-todo.component.html',
   styleUrl: './exp-my-form-todo.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExpMyFormTodoComponent {
   myMockService = inject(MyMockTodoService);

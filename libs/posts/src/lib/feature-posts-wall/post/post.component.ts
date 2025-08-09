@@ -1,10 +1,14 @@
 import {
-  Component, computed,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
   effect,
   ElementRef,
   inject,
-  input, OnInit, Signal,
-  ViewChild
+  input,
+  OnInit,
+  Signal,
+  ViewChild,
 } from '@angular/core';
 import { CommentComponent } from '../../ui';
 import {
@@ -12,7 +16,12 @@ import {
   DateDiffPipe,
   SvgIconComponent,
 } from '@tt/common-ui';
-import { Post, PostComment, postsActions, selectCommentsByPostId } from '@tt/data-access/posts';
+import {
+  Post,
+  PostComment,
+  postsActions,
+  selectCommentsByPostId,
+} from '@tt/data-access/posts';
 import { MessageInputComponent } from '@tt/shared';
 import { Store } from '@ngrx/store';
 import { selectMe } from '@tt/data-access/profile';
@@ -29,6 +38,7 @@ import { selectMe } from '@tt/data-access/profile';
   ],
   templateUrl: './post.component.html',
   styleUrl: './post.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PostComponent implements OnInit {
   store = inject(Store);
@@ -57,7 +67,9 @@ export class PostComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.comms = this.store.selectSignal(selectCommentsByPostId(this.post()!.id));
+    this.comms = this.store.selectSignal(
+      selectCommentsByPostId(this.post()!.id)
+    );
   }
 
   async onCreatedComment(text: string) {

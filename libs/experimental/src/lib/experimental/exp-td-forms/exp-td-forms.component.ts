@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { JsonPipe } from '@angular/common';
 import { NoReactValidator } from './no-react.validator';
@@ -9,6 +9,7 @@ import { NoReactValidator } from './no-react.validator';
   imports: [FormsModule, JsonPipe, NoReactValidator],
   templateUrl: './exp-td-forms.component.html',
   styleUrl: './exp-td-forms.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExpTdFormsComponent {
   person = {

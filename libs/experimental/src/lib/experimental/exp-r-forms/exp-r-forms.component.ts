@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -89,6 +89,7 @@ function getDateRangeError(message: string) {
   templateUrl: './exp-r-forms.component.html',
   imports: [ReactiveFormsModule, KeyValuePipe],
   styleUrl: './exp-r-forms.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExpRFormsComponent {
   #fb = inject(FormBuilder);
