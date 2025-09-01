@@ -14,14 +14,13 @@ import {
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { SvgIconComponent } from '../index';
 
 type PasswordTypes = 'text' | 'password';
 
 @Component({
   selector: 'tt-input',
   standalone: true,
-  imports: [ReactiveFormsModule, SvgIconComponent, FormsModule],
+  imports: [ReactiveFormsModule, FormsModule],
   templateUrl: './tt-input.component.html',
   styleUrl: './tt-input.component.scss',
   providers: [

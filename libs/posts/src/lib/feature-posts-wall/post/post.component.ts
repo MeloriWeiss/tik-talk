@@ -1,10 +1,12 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   computed,
   effect,
   ElementRef,
   inject,
+  Injector,
   input,
   OnInit,
   Signal,
@@ -40,8 +42,9 @@ import { selectMe } from '@tt/data-access/profile';
   styleUrl: './post.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PostComponent implements OnInit {
+export class PostComponent implements OnInit, AfterViewInit {
   store = inject(Store);
+  injector = inject(Injector);
 
   post = input<Post>();
   profile = this.store.selectSignal(selectMe);
@@ -58,12 +61,15 @@ export class PostComponent implements OnInit {
 
   @ViewChild('commentsContainer') commentsContainer!: ElementRef;
 
-  constructor() {
-    effect(() => {
-      this.comments();
-      this.commentsContainer.nativeElement.scrollTop =
-        this.commentsContainer.nativeElement.scrollHeight;
-    });
+  ngAfterViewInit() {
+    effect(
+      () => {
+        this.comments();
+        this.commentsContainer.nativeElement.scrollTop =
+          this.commentsContainer.nativeElement.scrollHeight;
+      },
+      { injector: this.injector }
+    );
   }
 
   ngOnInit() {

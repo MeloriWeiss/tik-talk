@@ -3,7 +3,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { switchMap } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { AvatarCircleComponent, ScrollBlockDirective } from '@tt/common-ui';
-import { ImgUrlPipe, SvgIconComponent } from '@tt/common-ui';
+import { SvgIconComponent } from '@tt/common-ui';
 import { PostFeedComponent } from '@tt/posts';
 import { ProfileHeaderComponent } from '../../ui';
 import { ProfileService, selectMe } from '@tt/data-access/profile';
@@ -17,7 +17,6 @@ import { Store } from '@ngrx/store';
     AsyncPipe,
     SvgIconComponent,
     RouterLink,
-    ImgUrlPipe,
     PostFeedComponent,
     ScrollBlockDirective,
     AvatarCircleComponent,
