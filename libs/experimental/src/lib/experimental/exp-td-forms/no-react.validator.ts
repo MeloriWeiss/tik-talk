@@ -12,8 +12,8 @@ import {
   providers: [
     {
       provide: NG_VALIDATORS,
-      useExisting: NoReactValidator,
       multi: true,
+      useExisting: NoReactValidator,
     },
   ],
 })

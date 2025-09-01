@@ -27,7 +27,7 @@ function getEducationForm(): FormGroup<EducationForm> {
   });
 }
 
-function getProfessionControl(initialValue: string = ''): FormControl<string | null> {
+function getProfessionControl(initialValue = ''): FormControl<string | null> {
   return new FormControl<string>(initialValue ?? '', [Validators.required]);
 }
 

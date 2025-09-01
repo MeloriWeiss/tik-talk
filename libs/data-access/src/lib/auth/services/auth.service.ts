@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class AuthService {
-  http = inject(HttpClient);
+  #http = inject(HttpClient);
   cookieService = inject(CookieService);
   router = inject(Router);
 
@@ -32,7 +32,7 @@ export class AuthService {
     fd.append('username', payload.username);
     fd.append('password', payload.password);
 
-    return this.http.post<TokenResponse>(`${this.baseApiUrl}token`, fd).pipe(
+    return this.#http.post<TokenResponse>(`${this.baseApiUrl}token`, fd).pipe(
       tap((val) => {
         this.saveTokens(val);
       })
@@ -40,7 +40,7 @@ export class AuthService {
   }
 
   refreshAuthToken() {
-    return this.http
+    return this.#http
       .post<TokenResponse>(`${this.baseApiUrl}refresh`, {
         refresh_token: this.refreshToken,
       })

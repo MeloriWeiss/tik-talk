@@ -1,0 +1,36 @@
+:host {
+  position: relative;
+  display: grid;
+  gap: 20px;
+}
+
+.suggestions-dropdown {
+  position: absolute;
+  background: var(--dark-color);
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  border: var(--light-border);
+  border-radius: 4px;
+}
+
+.suggest-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-radius: 4px;
+  transition: .3s all;
+  color: var(--light-color);
+
+  &:hover {
+    background: var(--gray-color);
+  }
+}
+
+.three-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-gap: 20px;
+}

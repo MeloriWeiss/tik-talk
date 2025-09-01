@@ -48,8 +48,10 @@ export class PostComponent implements OnInit {
   comms!: Signal<PostComment[]>;
 
   comments = computed(() => {
-    if (this.comms()?.length > 0) {
-      return this.comms();
+    const comms = this.comms();
+
+    if (comms && comms.length > 0) {
+      return comms;
     }
     return this.post()?.comments;
   });
@@ -59,10 +61,8 @@ export class PostComponent implements OnInit {
   constructor() {
     effect(() => {
       this.comments();
-      requestAnimationFrame(() => {
-        this.commentsContainer.nativeElement.scrollTop =
-          this.commentsContainer.nativeElement.scrollHeight;
-      });
+      this.commentsContainer.nativeElement.scrollTop =
+        this.commentsContainer.nativeElement.scrollHeight;
     });
   }
 

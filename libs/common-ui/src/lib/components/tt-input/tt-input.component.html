@@ -1,0 +1,23 @@
+<label class="tt-control-label mb16">
+  <ng-content></ng-content>
+  <div class="input-block">
+    <input
+      [ngModel]="value"
+      (ngModelChange)="onModelChange($event)"
+      (blur)="onTouched()"
+      [type]="baseType()"
+      [placeholder]="placeholder()"
+      [disabled]="disabled()"
+      class="tt-input"
+    />
+    <button
+      type="button"
+      class="input-btn"
+      [class.disabled]="buttonDisabled()"
+      [class.active]="isPasswordVisible()"
+      (click)="togglePasswordVisibility()"
+    >
+      <ng-content select="[icon]"></ng-content>
+    </button>
+  </div>
+</label>

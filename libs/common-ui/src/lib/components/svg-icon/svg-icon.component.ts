@@ -6,15 +6,15 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   imports: [],
   template: '<svg:use [attr.href]="href"></svg:use>',
   styles: [`
-    :host {
-      width: var(--svg-width, 16px);
-      height: var(--svg-height, 16px);
-    }
+    /*:host {*/
+    /*  width: var(--svg-width, 16px);*/
+    /*  height: var(--svg-height, 16px);*/
+    /*}*/
   `],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SvgIconComponent {
-  @Input() icon: string = '';
+  @Input() icon = '';
 
   get href() {
     return `/assets/svg/${this.icon}.svg#${this.icon}`;

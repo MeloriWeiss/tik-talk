@@ -1,7 +1,7 @@
 @if (currentMessagesGroupDate()) {
-<div class="messages-group-date small-text">
-  {{ currentMessagesGroupDate() }}
-</div>
+  <div class="messages-group-date small-text">
+    {{ currentMessagesGroupDate() }}
+  </div>
 }
 <div
   class="messages-wrapper scrollbar scroll-hidden"
@@ -10,10 +10,10 @@
   #messagesContainer
 >
   @for (messageGroup of messagesGroups(); track messageGroup.date) {
-  <app-chat-messages-group
-    [messageGroup]="messageGroup"
-    (dateChanged)="onChangeGroupDate($event)"
-  ></app-chat-messages-group>
+    <app-chat-messages-group
+      [messageGroup]="messageGroup"
+      [observer]="observer"
+    ></app-chat-messages-group>
   }
 </div>
 

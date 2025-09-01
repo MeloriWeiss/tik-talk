@@ -2,8 +2,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
-  inject,
-  OnInit,
+  inject, OnDestroy,
+  OnInit
 } from '@angular/core';
 import { SubscriberCardComponent } from './subscriber-card/subscriber-card.component';
 import { RouterLink, RouterLinkActive } from '@angular/router';
@@ -45,7 +45,7 @@ enum menuLinks {
   styleUrl: './sidebar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, OnDestroy {
   profileService = inject(ProfileService);
   store = inject(Store);
   #chatsService = inject(ChatsService);
@@ -86,16 +86,25 @@ export class SidebarComponent implements OnInit {
     this.connectWSSubscription = this.#chatsService
       .connectWs()
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(async (message) => {
+      .subscribe((message) => {
         if (isErrorMessage(message)) {
-          await firstValueFrom(this.#authService.refreshAuthToken());
-          await firstValueFrom(timer(2000));
-          this.connectWs();
+          this.reconnect().then(() => {
+            this.connectWs();
+          });
         }
       });
   }
 
+  async reconnect() {
+    await firstValueFrom(this.#authService.refreshAuthToken());
+    await firstValueFrom(timer(2000));
+  }
+
   ngOnInit() {
     this.store.dispatch(profileActions.getMe());
+  }
+
+  ngOnDestroy() {
+    this.#chatsService.disconnectWs();
   }
 }

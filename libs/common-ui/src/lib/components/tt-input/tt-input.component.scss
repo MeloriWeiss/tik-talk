@@ -1,0 +1,24 @@
+.input-block {
+  position: relative;
+}
+
+.input-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 20px;
+  background: none;
+  border: none;
+  color: var(--light-transparent-color);
+  cursor: pointer;
+  padding: 5px 0 5px 5px;
+  font-size: 0;
+
+  &.disabled {
+    cursor: auto;
+  }
+
+  &.active {
+    color: var(--primary-color);
+  }
+}

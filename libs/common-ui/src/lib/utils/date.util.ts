@@ -79,7 +79,6 @@ export class DateUtil {
 
   static getLocalDateTime(date: string) {
     const format = this.getDateFormat(date);
-    // const a = DateTime.fromJSDate(new Date(date));
     const now = DateTime.local();
 
     return format === 'sql'

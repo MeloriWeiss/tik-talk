@@ -1,7 +1,8 @@
 <textarea
-  [(ngModel)]="text"
+  #field
+  [formControl]="control"
+  (blur)="onTouched()"
   [placeholder]="placeholder()"
-  (input)="onTextareaInput($event)"
   [rows]="rows()"
   class="tt-textarea"
 ></textarea>

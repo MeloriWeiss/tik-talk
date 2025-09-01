@@ -22,8 +22,7 @@
     <label class="tt-form-label">
       <span>О себе</span>
       <app-main-textarea
-        [text]="form.value.description || ''"
-        (inputText)="onTextareaInput($event)"
+        formControlName="description"
         rows="4"
         class="bordered"
       ></app-main-textarea>
@@ -34,24 +33,29 @@
       <app-avatar-upload></app-avatar-upload>
     </label>
 
-    <label class="tt-form-label">
+    <div class="tt-form-label">
       <span>Навыки (стэк)</span>
-      <input formControlName="stack" type="text" class="tt-form-input" />
-    </label>
+      <tt-badges-input formControlName="stack"></tt-badges-input>
+    </div>
+
+    <div class="tt-form-label">
+      <span>Адрес</span>
+      <tt-address-input formControlName="city"></tt-address-input>
+    </div>
   </div>
 
   <div class="profile-actions mt20">
     <div class="profile-actions__controls">
-      <button class="btn btn-transparent icon-btn">
+      <button type="button" class="btn btn-transparent icon-btn">
         <svg icon="trash" class="profile-actions__icon"></svg>
       </button>
-      <button class="btn btn-transparent icon-btn" (click)="logout()">
+      <button type="button" class="btn btn-transparent icon-btn" (click)="logout()">
         <svg icon="logout" class="profile-actions__icon"></svg>
       </button>
     </div>
     <div class="profile-actions__controls">
       <a [routerLink]="['/profile', 'me']">
-        <button class="btn btn-transparent" type="button">Отмена</button>
+        <button type="button" class="btn btn-transparent">Отмена</button>
       </a>
       <button class="btn">Сохранить</button>
     </div>

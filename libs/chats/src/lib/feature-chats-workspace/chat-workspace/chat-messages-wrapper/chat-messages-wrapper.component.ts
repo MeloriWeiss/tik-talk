@@ -1,18 +1,25 @@
 import {
-  AfterViewInit, ChangeDetectionStrategy,
+  AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   ElementRef,
   inject,
-  input, OnDestroy,
+  input,
+  OnDestroy,
   signal,
-  ViewChild
+  viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { ChatMessagesGroupComponent } from './chat-messages-group/chat-messages-group.component';
 import { ScrollBlockDirective } from '@tt/common-ui';
 import { MessageInputComponent } from '@tt/shared';
-import { ChatsService, PatchedChat, selectActiveChatMessages } from '@tt/data-access/chats';
-import { Subscription, tap } from 'rxjs';
+import {
+  ChatsService,
+  PatchedChat,
+  selectActiveChatMessages,
+} from '@tt/data-access/chats';
+import { tap } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 @Component({
@@ -30,28 +37,35 @@ import { Store } from '@ngrx/store';
 export class ChatMessagesWrapperComponent implements AfterViewInit, OnDestroy {
   chatsService = inject(ChatsService);
   store = inject(Store);
+  destroyRef = inject(DestroyRef);
 
   chat = input.required<PatchedChat>();
+
+  messagesContainer = viewChild.required<ElementRef>('messagesContainer');
+
   messagesGroups = this.store.selectSignal(selectActiveChatMessages);
   currentMessagesGroupDate = signal<string>('');
 
-  @ViewChild('messagesContainer') messagesContainer!: ElementRef;
-  scrollContainerSub: Subscription | null = null;
+  observer: IntersectionObserver | null = null;
 
   constructor() {
     toObservable(this.chat)
       .pipe(takeUntilDestroyed())
       .subscribe(() => {
-        this.messagesContainer.nativeElement.scrollTop =
-          this.messagesContainer.nativeElement.scrollHeight;
+        this.scrollMessagesContainer();
+        const messagesGroups = this.messagesGroups();
         this.currentMessagesGroupDate.set(
-          this.messagesGroups()[this.messagesGroups().length - 1]?.date
+          messagesGroups[messagesGroups.length - 1]?.date
         );
       });
-  }
 
-  onChangeGroupDate(date: string) {
-    this.currentMessagesGroupDate.set(date);
+    this.observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          this.currentMessagesGroupDate.set(entry.target.innerHTML);
+        }
+      });
+    });
   }
 
   async onSendMessage(messageText: string) {
@@ -59,19 +73,25 @@ export class ChatMessagesWrapperComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    this.scrollContainerSub = this.chatsService.messages$
+    this.chatsService.messages$
       .pipe(
+        takeUntilDestroyed(this.destroyRef),
         tap(() => {
           requestAnimationFrame(() => {
-            this.messagesContainer.nativeElement.scrollTop =
-              this.messagesContainer.nativeElement.scrollHeight;
+            this.scrollMessagesContainer();
           });
         })
       )
       .subscribe();
   }
 
+  scrollMessagesContainer() {
+    const messagesContainer = this.messagesContainer();
+    messagesContainer.nativeElement.scrollTop =
+      messagesContainer.nativeElement.scrollHeight;
+  }
+
   ngOnDestroy() {
-    this.scrollContainerSub?.unsubscribe();
+    this.observer?.disconnect();
   }
 }

@@ -1,6 +1,6 @@
 :host {
+  display: block;
   font-size: 0;
-
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -14,6 +14,11 @@
   &.size70 {
     width: 70px;
     height: 70px;
+  }
+
+  &.size36 {
+    width: 36px;
+    height: 36px;
   }
 }
 

@@ -3,9 +3,8 @@
 }
 
 <app-main-textarea
-  [text]="text"
   [placeholder]="placeholder()"
-  (inputText)="onTextareaInput($event)"
+  [formControl]="textareaControl"
   rows="1"
 ></app-main-textarea>
 

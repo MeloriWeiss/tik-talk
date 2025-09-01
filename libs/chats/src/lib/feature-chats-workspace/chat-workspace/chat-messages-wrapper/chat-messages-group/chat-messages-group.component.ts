@@ -1,12 +1,11 @@
 import {
-  AfterViewInit, ChangeDetectionStrategy,
+  AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
-  EventEmitter,
   input,
   OnDestroy,
-  Output,
-  ViewChild
+  viewChild,
 } from '@angular/core';
 import { ChatMessageComponent } from './chat-message/chat-message.component';
 import { MessagesGroup } from '@tt/data-access/chats';
@@ -20,28 +19,16 @@ import { MessagesGroup } from '@tt/data-access/chats';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChatMessagesGroupComponent implements AfterViewInit, OnDestroy {
-  messageGroup = input<MessagesGroup>();
+  messageGroup = input.required<MessagesGroup>();
+  observer = input.required<IntersectionObserver | null>();
 
-  @ViewChild('dateGroupTitle') dateGroupTitle!: ElementRef;
-
-  @Output() dateChanged = new EventEmitter<string>();
-
-  observer!: IntersectionObserver;
+  dateGroupTitle = viewChild.required<ElementRef>('dateGroupTitle');
 
   ngAfterViewInit() {
-    this.observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          this.dateChanged.emit(entry.target.innerHTML);
-        }
-      });
-    });
-    this.observer.observe(this.dateGroupTitle.nativeElement);
+    this.observer()?.observe(this.dateGroupTitle().nativeElement);
   }
 
   ngOnDestroy() {
-    if (this.observer) {
-      this.observer.disconnect();
-    }
+    this.observer()?.unobserve(this.dateGroupTitle().nativeElement);
   }
 }

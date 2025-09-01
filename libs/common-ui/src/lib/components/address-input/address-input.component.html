@@ -1,0 +1,47 @@
+<input
+  [formControl]="innerSearchControl"
+  type="text"
+  class="tt-form-input full-column"
+>
+@if (suggestions$ | async; as suggestions) {
+  @if (isDropdownOpened()) {
+    <div class="suggestions-dropdown">
+      @for (suggest of suggestions; track suggest) {
+        <button
+          type="button"
+          class="suggest-btn"
+          (click)="onSuggestionPick(suggest)"
+        >{{ suggest.value }}
+        </button>
+      }
+    </div>
+  }
+}
+
+<div [formGroup]="addressForm" class="three-columns">
+  <label class="tt-form-label">
+    <span>Город</span>
+    <input
+      formControlName="city"
+      type="text"
+      class="tt-form-input"
+    >
+  </label>
+  <label class="tt-form-label">
+    <span>Улица</span>
+    <input
+      formControlName="street"
+      type="text"
+      class="tt-form-input"
+    >
+  </label>
+  <label class="tt-form-label">
+    <span>Дом</span>
+    <input
+      formControlName="building"
+      type="text"
+      class="tt-form-input"
+    >
+  </label>
+</div>
+

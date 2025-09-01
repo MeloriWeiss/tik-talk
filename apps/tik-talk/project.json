@@ -2,14 +2,14 @@
   "name": "tik-talk",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
+  "sourceRoot": "apps/tik-talk/src",
+  "prefix": "app",
   "generators": {
     "@schematics/angular:component": {
       "style": "scss",
       "skipTests": true
     }
   },
-  "sourceRoot": "apps/tik-talk/src",
-  "prefix": "app",
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:application",
@@ -49,12 +49,7 @@
           "optimization": false,
           "extractLicenses": false,
           "sourceMap": true,
-          "fileReplacements": [
-            {
-              "replace": "apps/tik-talk/src/environments/environment.ts",
-              "with": "apps/tik-talk/src/environments/environment.development.ts"
-            }
-          ]
+          "fileReplacements": []
         }
       },
       "defaultConfiguration": "production",
@@ -71,6 +66,9 @@
         }
       },
       "defaultConfiguration": "development",
+      "options": {
+        "proxyConfig": "proxy-conf.json"
+      }
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n"

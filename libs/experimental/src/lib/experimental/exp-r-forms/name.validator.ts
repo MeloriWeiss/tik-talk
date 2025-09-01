@@ -12,10 +12,10 @@ import { Profile } from '@tt/data-access/profile';
   providedIn: 'root',
 })
 export class NameValidator implements AsyncValidator {
-  http = inject(HttpClient);
+  #http = inject(HttpClient);
 
   validate(control: AbstractControl): Observable<ValidationErrors | null> {
-    return this.http
+    return this.#http
       .get<Profile[]>('https://icherniakov.ru/yt-course/account/test_accounts')
       .pipe(
         delay(1000),

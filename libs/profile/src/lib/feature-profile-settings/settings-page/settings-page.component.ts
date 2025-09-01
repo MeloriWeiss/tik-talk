@@ -1,10 +1,25 @@
-import { ChangeDetectionStrategy, Component, effect, inject, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  inject,
+  ViewChild,
+} from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
-import { MainTextareaComponent, SvgIconComponent } from '@tt/common-ui';
+import {
+  AddressInputComponent,
+  BadgesInputComponent,
+  MainTextareaComponent,
+  SvgIconComponent,
+} from '@tt/common-ui';
 import { AvatarUploadComponent, ProfileHeaderComponent } from '../../ui/index';
-import { profileActions, ProfileService, selectMe } from '@tt/data-access/profile';
+import {
+  profileActions,
+  ProfileService,
+  selectMe,
+} from '@tt/data-access/profile';
 import { AuthService } from '@tt/data-access/auth';
 import { Store } from '@ngrx/store';
 
@@ -18,6 +33,8 @@ import { Store } from '@ngrx/store';
     RouterLink,
     AvatarUploadComponent,
     MainTextareaComponent,
+    BadgesInputComponent,
+    AddressInputComponent,
   ],
   templateUrl: './settings-page.component.html',
   styleUrl: './settings-page.component.scss',
@@ -37,22 +54,20 @@ export class SettingsPageComponent {
     lastName: ['', Validators.required],
     username: [{ value: '', disabled: true }, Validators.required],
     description: [''],
-    stack: [''],
+    stack: [[] as string[]],
+    city: [''],
   });
 
   constructor() {
     const me = this.store.selectSignal(selectMe);
 
     effect(() => {
-      this.form.patchValue({
-        ...me(),
-        stack: this.mergeStack(me()?.stack),
-      });
+      const myProfile = me();
+      if (!myProfile) {
+        return;
+      }
+      this.form.patchValue(myProfile);
     });
-  }
-
-  onTextareaInput(value: string) {
-    this.form.patchValue({ description: value });
   }
 
   onSave() {
@@ -72,34 +87,11 @@ export class SettingsPageComponent {
     this.store.dispatch(
       profileActions.patchProfile({
         //@ts-ignore
-        profile: {
-          ...this.form.value,
-          stack: this.splitStack(this.form.value.stack),
-        },
+        profile: this.form.value,
       })
     );
 
     this.router.navigate(['/profile/me']).then();
-  }
-
-  splitStack(stack: string | null | undefined | string[]): string[] {
-    if (!stack) {
-      return [];
-    }
-    if (Array.isArray(stack)) {
-      return stack;
-    }
-    return stack.split(/\s*,\s*/);
-  }
-
-  mergeStack(stack: string | null | undefined | string[]): string {
-    if (!stack) {
-      return '';
-    }
-    if (Array.isArray(stack)) {
-      return stack.join(', ');
-    }
-    return stack;
   }
 
   logout() {

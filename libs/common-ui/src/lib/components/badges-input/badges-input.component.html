@@ -1,0 +1,16 @@
+<div class="badge-control">
+  @for (tech of value$ | async; track tech; let i = $index) {
+    <div class="badge-tag">
+      <button (click)="onTagDelete(i)" type="button" class="badge-btn__delete">
+        <svg icon="cross" class="svg10"></svg>
+      </button>
+      {{ tech }}
+    </div>
+  }
+
+  <input
+    [(ngModel)]="innerInput"
+    type="text"
+    class="badges-ghost-input"
+  >
+</div>

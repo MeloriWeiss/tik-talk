@@ -12,14 +12,14 @@
 
     <div class="profile-card__tags">
       @for (skill of profile.stack; track skill) {
-        <div class="skill-tag">{{ skill }}</div>
+        <div class="badge-tag">{{ skill }}</div>
       }
     </div>
 
     <div class="profile-card__action-btns">
       <button class="btn">Подписаться</button>
       <a [routerLink]="['/profile', profile.id]" class="btn btn-icon">
-        <svg icon="redirect-arrow"></svg>
+        <svg icon="redirect-arrow" class="svg16"></svg>
       </a>
     </div>
   </div>

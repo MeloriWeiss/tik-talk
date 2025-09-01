@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { switchMap } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
-import { ScrollBlockDirective } from '@tt/common-ui';
+import { AvatarCircleComponent, ScrollBlockDirective } from '@tt/common-ui';
 import { ImgUrlPipe, SvgIconComponent } from '@tt/common-ui';
 import { PostFeedComponent } from '@tt/posts';
 import { ProfileHeaderComponent } from '../../ui';
@@ -20,6 +20,7 @@ import { Store } from '@ngrx/store';
     ImgUrlPipe,
     PostFeedComponent,
     ScrollBlockDirective,
+    AvatarCircleComponent,
   ],
   templateUrl: './profile-page.component.html',
   styleUrl: './profile-page.component.scss',
@@ -38,7 +39,9 @@ export class ProfilePageComponent {
 
   profile$ = this.route.params.pipe(
     switchMap(({ id }) => {
-      this.isMyPage.set(id === 'me' || id === this.store.selectSignal(selectMe)()?.id);
+      this.isMyPage.set(
+        id === 'me' || id === this.store.selectSignal(selectMe)()?.id
+      );
 
       if (this.isMyPage()) {
         return this.me$;

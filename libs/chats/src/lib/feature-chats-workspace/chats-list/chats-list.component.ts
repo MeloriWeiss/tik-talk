@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ChatsBtnComponent } from '../chats-btn/chats-btn.component';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { map, startWith, switchMap } from 'rxjs';
+import { startWith } from 'rxjs';
 import { ScrollBlockDirective, SvgIconComponent } from '@tt/common-ui';
 import { chatsActions, ChatsService, selectChats } from '@tt/data-access/chats';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';

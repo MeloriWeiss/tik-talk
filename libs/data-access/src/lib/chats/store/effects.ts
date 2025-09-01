@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { chatsActions } from './actions';
-import { ChatsService } from '../services/chats.service';
-import { map, of, switchMap, tap } from 'rxjs';
+import { ChatsService } from '../services';
+import { map, switchMap, tap } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Injectable({

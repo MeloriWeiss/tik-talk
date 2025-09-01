@@ -1,6 +1,6 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable, of } from 'rxjs';
 import { DateUtil } from '@tt/common-ui';
 import { httpConfig } from '../../shared/index';
 import { Store } from '@ngrx/store';
@@ -11,7 +11,6 @@ import {
   Chat,
   ChatsListItem,
   MessagesGroup,
-  PatchedChat,
   ChatLoadedResponse,
 } from '../interfaces';
 import { AuthService } from '../../auth/index';
@@ -22,7 +21,7 @@ import { chatsActions } from '../store';
   providedIn: 'root',
 })
 export class ChatsService {
-  http = inject(HttpClient);
+  #http = inject(HttpClient);
   authService = inject(AuthService);
   store = inject(Store);
   me = inject(Store).selectSignal(selectMe);
@@ -44,12 +43,16 @@ export class ChatsService {
     this.messages$.next(null);
   };
 
+  disconnectWs() {
+    this.wsAdaptor.disconnect();
+  }
+
   createChat(userId: number) {
-    return this.http.post<Chat>(`${this.baseApiUrl}chat/${userId}`, {});
+    return this.#http.post<Chat>(`${this.baseApiUrl}chat/${userId}`, {});
   }
 
   getMyChats() {
-    return this.http
+    return this.#http
       .get<ChatsListItem[]>(`${this.baseApiUrl}chat/get_my_chats/`)
       .pipe(
         map((chat) => {
@@ -64,7 +67,7 @@ export class ChatsService {
   getChatById(chatId: number): Observable<ChatLoadedResponse> {
     const formattedToday = DateUtil.getFormattedToday();
 
-    return this.http.get<Chat>(`${this.baseApiUrl}chat/${chatId}`).pipe(
+    return this.#http.get<Chat>(`${this.baseApiUrl}chat/${chatId}`).pipe(
       map((chat) => {
         const messagesGroups: MessagesGroup[] = [];
 
@@ -100,9 +103,7 @@ export class ChatsService {
         const newActiveChat = {
           ...chat,
           companion:
-            chat.userFirst.id === this.me()?.id
-              ? chat.userSecond
-              : chat.userFirst,
+            chat.userFirst.id === this.me()?.id ? chat.userSecond : chat.userFirst,
           messages: messagesGroups,
         };
 

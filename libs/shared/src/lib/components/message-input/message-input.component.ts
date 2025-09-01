@@ -1,5 +1,14 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, inject, input, Output } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  inject,
+  input,
+  output,
+  Output
+} from '@angular/core';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AvatarCircleComponent, MainTextareaComponent, SvgIconComponent } from '@tt/common-ui';
 import { Store } from '@ngrx/store';
 import { selectMe } from '@tt/data-access/profile';
@@ -12,6 +21,7 @@ import { selectMe } from '@tt/data-access/profile';
     SvgIconComponent,
     FormsModule,
     MainTextareaComponent,
+    ReactiveFormsModule,
   ],
   templateUrl: './message-input.component.html',
   styleUrl: './message-input.component.scss',
@@ -19,25 +29,23 @@ import { selectMe } from '@tt/data-access/profile';
 })
 export class MessageInputComponent {
   store = inject(Store);
+  cdr = inject(ChangeDetectorRef);
+
   profile = this.store.selectSignal(selectMe);
 
   placeholder = input('');
 
   isEmojiOpened = false;
-  text = '';
+  textareaControl = new FormControl('');
 
-  @Output() created = new EventEmitter<string>();
-
-  onTextareaInput(value: string) {
-    this.text = value;
-  }
+  created = output<string>();
 
   onCreate() {
-    if (!this.text) {
+    if (!this.textareaControl.value) {
       return;
     }
-    this.created.emit(this.text.trim());
-    this.text = '';
+    this.created.emit(this.textareaControl.value.trim());
+    this.textareaControl.setValue('');
   }
 
   onOpenEmojiList() {
@@ -49,7 +57,7 @@ export class MessageInputComponent {
     if (smile.length !== 2) {
       return;
     }
-    this.text += smile;
+    this.textareaControl.patchValue(this.textareaControl.value + smile);
     this.isEmojiOpened = false;
   }
 }

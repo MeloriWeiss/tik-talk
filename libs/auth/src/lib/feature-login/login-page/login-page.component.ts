@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -12,11 +7,12 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '@tt/data-access/auth';
+import { SvgIconComponent, TtInputComponent } from '@tt/common-ui';
 
 @Component({
   selector: 'app-login-page',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, SvgIconComponent, TtInputComponent],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -24,8 +20,6 @@ import { AuthService } from '@tt/data-access/auth';
 export class LoginPageComponent {
   authService = inject(AuthService);
   router = inject(Router);
-
-  isPasswordVisible = signal<boolean>(false);
 
   form = new FormGroup({
     username: new FormControl<string | null>(null, Validators.required),
