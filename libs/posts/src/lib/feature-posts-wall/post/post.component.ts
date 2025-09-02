@@ -65,8 +65,10 @@ export class PostComponent implements OnInit, AfterViewInit {
     effect(
       () => {
         this.comments();
-        this.commentsContainer.nativeElement.scrollTop =
-          this.commentsContainer.nativeElement.scrollHeight;
+        requestAnimationFrame(() => {
+          this.commentsContainer.nativeElement.scrollTop =
+            this.commentsContainer.nativeElement.scrollHeight;
+        })
       },
       { injector: this.injector }
     );

@@ -40,8 +40,9 @@ export const routes: Routes = [
       provideEffects([ProfileEffects, ChatsEffects]),
     ],
     canActivate: [canActivateAuth],
+    title: 'TikTalk',
   },
-  { path: 'login', component: LoginPageComponent },
+  { path: 'login', component: LoginPageComponent, title: 'TikTalk: вход' },
 
   {
     path: 'exp',

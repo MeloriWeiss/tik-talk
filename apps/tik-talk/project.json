@@ -27,7 +27,12 @@
           }
         ],
         "styles": ["apps/tik-talk/src/styles.scss"],
-        "scripts": []
+        "scripts": [],
+        "server": "apps/tik-talk/src/main.server.ts",
+        "ssr": {
+          "entry": "apps/tik-talk/src/server.ts"
+        },
+        "outputMode": "server"
       },
       "configurations": {
         "production": {
